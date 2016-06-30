@@ -122,17 +122,22 @@ class RoleController extends Controller
     public function destroy($slug)
     {
         $model = Role::where('slug',$slug)->first();
+
         DB::beginTransaction();
         try {
-            if($model->status =='active'){
-                $model->status = 'cancel';
+            if($model->id==1 || $model->id==2 || $model->id==3 || $model->id==4 ){
+                Session::flash('danger','Sorry,you can\' delete this role.');
             }else{
-                $model->status = 'active';
+                if($model->status =='active'){
+                    $model->status = 'cancel';
+                }else{
+                    $model->status = 'active';
+                }
+                $model->save();
+                DB::commit();
+                Session::flash('message', "Successfully Deleted.");
+                LogFileHelper::log_info('delete-role', 'Successfully status cancel', ['Role title: '.$model->title]);
             }
-            $model->save();
-            DB::commit();
-            Session::flash('message', "Successfully Deleted.");
-            LogFileHelper::log_info('delete-role', 'Successfully status cancel', ['Role title: '.$model->title]);
 
         } catch(\Exception $e) {
             DB::rollback();
