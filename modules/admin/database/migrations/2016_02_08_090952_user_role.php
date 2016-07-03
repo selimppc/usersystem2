@@ -57,7 +57,6 @@ class UserRole extends Migration
             $table->string('remember_token',64)->nullable();
             $table->unsignedInteger('role_id')->nullable();
             $table->unsignedInteger('department_id')->nullable();
-            $table->unsignedInteger('company_id')->nullable();
             $table->enum('status',array('active','inactive','cancel'))->nullable();
             $table->integer('created_by', false, 11);
             $table->integer('updated_by', false, 11);

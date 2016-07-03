@@ -55,9 +55,7 @@
                                     <td>
                                         <a href="{{ route('view-role', $values->slug) }}" class="btn btn-info btn-xs" data-placement="top" data-toggle="modal" data-target="#etsbModal" data-content="view"><i class="fa fa-eye"></i></a>
                                         <a href="{{ route('edit-role', $values->slug) }}" class="btn btn-primary btn-xs" data-placement="top" data-toggle="modal" data-target="#etsbModal" data-content="update"><i class="fa fa-edit"></i></a>
-                                        @if($values->slug != 'super-admin' && $values->slug != 'admin' && $values->slug != 'com-admin' && $values->slug != 'user')
-                                            <a href="{{ route('delete-role', $values->slug) }}" class="btn btn-danger btn-xs" data-placement="top" onclick="return confirm('Are you sure to Delete?')" data-content="delete"><i class="fa fa-trash-o"></i></a>
-                                        @endif
+                                        <a href="{{ route('delete-role', $values->slug) }}" class="btn btn-danger btn-xs" data-placement="top" onclick="return confirm('Are you sure to Delete?')" data-content="delete"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
