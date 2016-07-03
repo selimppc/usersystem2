@@ -13,6 +13,18 @@ class UserRole extends Migration
     public function up()
     {
 
+        /* Company */
+
+        Schema::create('company', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title', 64)->nullable();
+            $table->string('description',256)->nullable();
+            $table->integer('created_by', false, 11);
+            $table->integer('updated_by', false, 11);
+            $table->timestamps();
+            $table->engine = 'InnoDB';
+        });
+
         /* Role */
 
         Schema::create('role', function (Blueprint $table) {
@@ -20,10 +32,15 @@ class UserRole extends Migration
             $table->string('title', 64)->nullable();
             $table->string('slug',64)->nullable();
             $table->enum('status',array('active','inactive','cancel'))->nullable();
+            $table->unsignedInteger('company_id')->nullable();
+            $table->enum('type',array('sadmin','admin','cadmin','user'))->nullable();
             $table->integer('created_by', false, 11);
             $table->integer('updated_by', false, 11);
             $table->timestamps();
             $table->engine = 'InnoDB';
+        });
+        Schema::table('role', function($table) {
+            $table->foreign('company_id')->references('id')->on('company');
         });
 
         /* User Department */
@@ -55,6 +72,7 @@ class UserRole extends Migration
             $table->dateTime('last_visit')->nullable();
             $table->dateTime('expire_date')->nullable();
             $table->string('remember_token',64)->nullable();
+            $table->unsignedInteger('company_id')->nullable();
             $table->unsignedInteger('role_id')->nullable();
             $table->unsignedInteger('department_id')->nullable();
             $table->enum('status',array('active','inactive','cancel'))->nullable();
@@ -70,6 +88,9 @@ class UserRole extends Migration
                 $table->foreign('role_id')->references('id')->on('role');
                 $table->foreign('department_id')->references('id')->on('department');
             }
+        });
+        Schema::table('user', function($table) {
+            $table->foreign('company_id')->references('id')->on('company');
         });
 
 
@@ -100,6 +121,7 @@ class UserRole extends Migration
             $table->string('title', 64)->nullable();
             $table->string('route_url',64)->nullable();
             $table->text('description')->nullable();
+            $table->enum('weight',array('4','3','2','1'))->nullable();
             $table->integer('created_by', false, 11);
             $table->integer('updated_by', false, 11);
             $table->timestamps();
