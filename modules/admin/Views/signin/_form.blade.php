@@ -34,9 +34,11 @@
 
                         </div>
 
-
-
                         <button class="btn btn-success btn-block">Login</button>
+
+                        <p>
+                            <a href="{{ route('sign-up') }}" class="pull-right" style="text-decoration: underline; color: darkred"><b>Sign Up</b></a>
+                        </p>
 
                     {!! Form::close() !!}
                 </div>

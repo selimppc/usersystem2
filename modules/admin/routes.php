@@ -14,10 +14,15 @@ Route::group(array('modules' => 'Admin', 'namespace' => 'Modules\Admin\Controlle
 				'uses' => 'UserController@forget_password_view',
 			]);
 
-		Route::any('create-sign-up', [
-				'as'   => 'create-sign-up',
+		Route::any('sign-up', [
+				'as'   => 'sign-up',
 				'uses' => 'UserController@create_sign_up',
 			]);
+
+        Route::any('signup', [
+        'as'   => 'signup',
+        'uses' => 'UserController@store_signup_info',
+            ]);
 
 	});
 
@@ -240,11 +245,11 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
 				'as'   => 'user-save-new-password',
 				'uses' => 'UserController@save_new_password']);
 
-		Route::any('signup', [
+		/*Route::any('signup', [
 				//    'middleware' => 'acl_access:signup',
 				'as'   => 'signup',
 				'uses' => 'UserController@store_signup_info',
-			]);
+			]);*/
 
 		Route::get('user-logout', [
 				'as'   => 'user-logout',

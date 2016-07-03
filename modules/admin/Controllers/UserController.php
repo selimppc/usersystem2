@@ -48,6 +48,7 @@ class UserController extends Controller
     }
     public function store_signup_info(Requests\UserRequest $request)
     {
+
         $input = $request->all();
 
         $input_data = [
@@ -61,20 +62,21 @@ class UserController extends Controller
             #'last_visit'=> date('Y-m-d h:i:s', time()),
             #'role_id'=> '',
         ];
+
         /* Transaction Start Here */
         DB::beginTransaction();
         try {
             User::create($input_data);
             DB::commit();
             Session::flash('message', 'Successfully Completed Signup Process!You may login now ');
-            LogFileHelper::log_info('store_signip_info', 'Successfully add', $input_data);
+            #LogFileHelper::log_info('store_signip_info', 'Successfully add', $input_data);
         }catch (\Exception $e) {
             //If there are any exceptions, rollback the transaction`
             DB::rollback();
             Session::flash('error', $e->getMessage());
             LogFileHelper::log_error('store_signup_info', $e->getMessage(), $input_data);
         }
-        return redirect()->back();
+        return redirect()->route('get-user-login');
     }
     public function forget_password_view()
     {
