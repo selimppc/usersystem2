@@ -30,7 +30,7 @@ class RoleUser extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $fillable = [
-        'role_id','user_id','status'
+        'role_id','user_id','status','created_by'
     ];
 
     /**

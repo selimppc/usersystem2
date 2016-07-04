@@ -83,15 +83,14 @@ class UserRole extends Migration
         });
         Schema::table('user', function($table) {
             //if 'role' and department table  exists
-            if(Schema::hasTable('role') && Schema::hasTable('department'))
+            if(Schema::hasTable('role') && Schema::hasTable('department') && Schema::hasTable('company'))
             {
                 $table->foreign('role_id')->references('id')->on('role');
                 $table->foreign('department_id')->references('id')->on('department');
+                $table->foreign('company_id')->references('id')->on('company');
             }
         });
-        Schema::table('user', function($table) {
-            $table->foreign('company_id')->references('id')->on('company');
-        });
+
 
 
         /*role_user*/

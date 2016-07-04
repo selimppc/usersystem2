@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Auth;
 use DateTime;
+use App\Company;
 
 class UserController extends Controller
 {
@@ -51,22 +52,83 @@ class UserController extends Controller
 
         $input = $request->all();
 
-        $input_data = [
-            'username'=>$input['username'],
-            'email'=>$input['email'],
-            'password'=>Hash::make($input['password']),
-            #'auth_key'=>'',
-            #'access_token'=>str_random(30),
-            'csrf_token'=> str_random(30),
-            'ip_address'=> getHostByName(getHostName()),
-            #'last_visit'=> date('Y-m-d h:i:s', time()),
-            #'role_id'=> '',
+        #print_r($input);exit;
+
+        $input_company = [
+            'title'=>$input['title'],
+            'description'=>$input['description'],
+            'created_by'=>1
         ];
 
-        /* Transaction Start Here */
         DB::beginTransaction();
-        try {
-            User::create($input_data);
+        try{
+
+            $company_exists = DB::table('company')->where('title', '=', $input['title'])->exists();
+
+            if($company_exists){
+
+                $company_ids = DB::table('company')->where('title', '=', $input['title'])->first();
+                $company_id = $company_ids->id;
+            }else{
+                $company_ids = Company::create($input_company);
+                $company_id = $company_ids->id;
+            }
+
+            $input_role = [
+                'title'=>'com-admin',
+                'slug'=>'com-admin',
+                'status'=>'active',
+                'company_id'=>$company_id,
+                'type'=>'cadmin',
+                'created_by'=>1,
+            ];
+
+            $role_exists = DB::table('role')->where('slug', '=', 'com-admin')->where('company_id', '=', $company_id)->exists();
+            if($role_exists){
+
+                Session::flash('message', 'This Company Admin already exists');
+                return redirect()->back();
+
+            }else{
+                $role_ids = Role::create($input_role);
+                $role_id = $role_ids->id;
+            }
+
+            #print_r($role_id);exit;
+
+            $curr_date = date('Y-m-d h:i:s', time());
+            $date= date('Y-m-d h:i:s', strtotime($curr_date. ' + 180 days'));
+
+            $input_data = [
+                'username'=>$input['username'],
+                'email'=>$input['email'],
+                'password'=>Hash::make($input['password']),
+                #'auth_key'=>'',
+                #'access_token'=>str_random(30),
+                'csrf_token'=> str_random(30),
+                'ip_address'=> getHostByName(getHostName()),
+                #'last_visit'=> date('Y-m-d h:i:s', time()),
+                'company_id'=> $company_id,
+                'role_id'=> $role_id,
+                'last_visit'=> date('Y-m-d h:i:s', time()),
+                'expire_date'=> $date,
+                'status'=> 'active',
+                'created_by'=> 1
+            ];
+
+            $user_id = User::create($input_data);
+
+            $input_role_user = [
+                'role_id'=>$role_id,
+                'user_id'=>$user_id->id,
+                'status'=>'active',
+                'created_by'=>1
+            ];
+
+            #print_r($input_role_user);exit;
+
+            RoleUser::create($input_role_user);
+
             DB::commit();
             Session::flash('message', 'Successfully Completed Signup Process!You may login now ');
             #LogFileHelper::log_info('store_signip_info', 'Successfully add', $input_data);

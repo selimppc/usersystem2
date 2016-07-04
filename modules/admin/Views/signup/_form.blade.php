@@ -30,6 +30,14 @@
                                 {!! Form::password('repeat_password', ['id'=>'regis-password','class' => 'form-control','required','placeholder'=>'Password','title'=>'Enter Password','onkeyup'=>"validation()"]) !!}
                                 <span id='rs-show-message'></span>
                             </div>
+                            <div class="form-group col-lg-12">
+                                <label>Company Name</label>
+                                {!! Form::text('title', Input::old('title'), ['name'=>'title', 'class' => 'form-control','required','placeholder'=>'Username','autofocus', 'title'=>'Enter User Name']) !!}
+                            </div>
+                            <div class="form-group col-sm-12">
+                                <label>Company Description</label>
+                                {!! Form::textarea('description', Input::old('description'),['size' => '6x2','title'=>'Type Description','id'=>'description','placeholder'=>'Write Description here..','spellcheck'=>'true','class' => 'form-control text-left']) !!}
+                            </div>
 
                         </div>
                         <div class="pull-right">
