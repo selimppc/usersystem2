@@ -287,12 +287,13 @@ class UserController extends Controller
         $role_id=Session::get('role_id');
         if($role_id== 1 || $role_id==2) {
             $model = User::with('relDepartment')->where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
+            $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{
             $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
         }
 
         $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
-        $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         /*set 30days for expire-date to user*/
         $i=30;
         $add_days = +$i.' days';
@@ -360,6 +361,7 @@ class UserController extends Controller
                 'csrf_token'=> str_random(30),
                 'ip_address'=> getHostByName(getHostName()),
                 'last_visit'=> $now,
+                'company_id'=> Session::get('company_id'),
                 'department_id'=> $input['department_id'],
                 'role_id'=> $input['role_id'],
                 'expire_date'=> $input['expire_date'],

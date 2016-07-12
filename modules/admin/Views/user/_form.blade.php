@@ -12,6 +12,7 @@
             {!! Form::label('email', 'Email Address:', ['class' => 'control-label']) !!}
             <small class="required">(Required)</small>
             {!! Form::email('email',Input::old('email'),['class' => 'form-control','placeholder'=>'Email Address','required', 'title'=>'Enter User Email Address']) !!}
+            <input type="hidden" name="title" value="3">
         </div>
     </div>
 </div>

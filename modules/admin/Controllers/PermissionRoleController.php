@@ -30,12 +30,23 @@ class PermissionRoleController extends Controller
     {
         $pageTitle = "Permission Role List";
 
-        $data = DB::table('permission_role')
-            ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
-            ->join('role', 'role.id', '=', 'permission_role.role_id')
-            ->where('role.title', '!=', 'super-admin')
-            ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title')
-            ->paginate(30);
+        $role_id=Session::get('role_id');
+        if($role_id== 1 || $role_id==2) {
+            $data = DB::table('permission_role')
+                ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
+                ->join('role', 'role.id', '=', 'permission_role.role_id')
+                ->where('role.title', '!=', 'super-admin')
+                ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title')
+                ->paginate(30);
+        }else{
+            $data = DB::table('permission_role')
+                ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
+                ->join('role', 'role.id', '=', 'permission_role.role_id')
+                ->where('role.title', '!=', 'super-admin')
+                ->where('role.company_id', Session::get('company_id'))
+                ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title')
+                ->paginate(30);
+        }
         //$data = PermissionRole::where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
         $permission_id = Permission::lists('title','id')->all();
         #$role_id = [''=>'Select Role'] + Role::lists('title','id')->all();
