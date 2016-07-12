@@ -41,7 +41,7 @@ class PermissionController extends Controller
         return view('admin::permission.index', ['data' => $data, 'pageTitle'=> $pageTitle]);
     }
 
-    public function store(Requests\PermissionRequest $request){
+    public function store1(Requests\PermissionRequest $request){
         $input = $request->all();
 
         $title = Input::get('title');
@@ -104,28 +104,25 @@ class PermissionController extends Controller
      * @param  string  $route_url
      * @return \Illuminate\Http\Response
      */
-    public function update(Requests\PermissionRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $model = Permission::where('route_url',$id)->first();
-        $input = $request->all();
-
-        $title = Input::get('title');
-        $title_upper_case = ucwords($title);
-        $input['title'] = $title_upper_case;
-        $input['route_url'] = str_slug(strtolower($input['title']));
-
+        $model = Permission::findOrFail($id);
+        $input = $request->only('description','weight');
+        $title= $request->only('title');
+        $title=$title['title'];
         DB::beginTransaction();
         try {
             $model->update($input);
+//            dd($input);
             DB::commit();
             Session::flash('message', "Successfully Updated");
-            LogFileHelper::log_info('update-permission', 'Successfully updated', ['Permission title: '.$input['title']]);
+            LogFileHelper::log_info('update-permission', 'Successfully updated', ['Permission title: '.$title]);
         }
         catch ( Exception $e ){
             //If there are any exceptions, rollback the transaction
             DB::rollback();
             Session::flash('danger', $e->getMessage());
-            LogFileHelper::log_error('update-permission', $e->getMessage(), ['Permission title: '.$input['title']]);
+            LogFileHelper::log_error('update-permission', $e->getMessage(), ['Permission title: '.$title]);
         }
         return redirect()->route('index-permission');
     }
@@ -161,10 +158,62 @@ class PermissionController extends Controller
      */
     public function route_in_permission(){
         $routeCollection = Route::getRoutes();
-
+        #dd($routeCollection);
         foreach ($routeCollection as $value) {
             $routes_list[] = Str::lower($value->getPath());
         }
+        #dd($routes_list);
+        $new_routes=[];
+        $duplicate=0;
+        foreach ($routes_list as $route) {
+            $permission_exists = Permission::where('route_url','=',$route)->exists();
+            if(!$permission_exists){
+                $duplicate++;
+                $new_routes[]=$route;
+            }
+        }
+        if($duplicate==0)
+        {
+            Session::flash('message', "All route already exists. No new route found");
+            return redirect()->route('index-permission');
+        }else{
+            $pageTitle = 'Add Permissions';
+            return view('admin::permission.create', ['data' => $new_routes, 'pageTitle'=> $pageTitle]);
+        }
+        return redirect()->route('index-permission');
+    }
+    public function store(Request $request)
+    {
+        $data=$request->except('_token');
+//        dd($data);
+        foreach($data['route_url'] as $id=>$route_url)
+        {
+            $model= new Permission();
+            $model->title= $route_url;
+            $model->route_url= $route_url;
+            $model->weight= $data['weight'][$id];
+            DB::beginTransaction();
+            try {
+                $model->save();
+                DB::commit();
+                Session::flash('message', "Successfully Add all route_url in permission table.");
+                //LogFileHelper::log_info('route-insert-in-permission', 'Successfully insert', ['Permission id: '.$model->id]);
+
+            } catch(\Exception $e) {
+                DB::rollback();
+                Session::flash('danger',$e->getMessage());
+                //LogFileHelper::log_error('route-insert-in-permission', $e->getMessage(), ['Permission id: '.$model->id]);
+            }
+        }
+        return redirect()->route('index-permission');
+    }
+    /*public function route_in_permission(){
+        $routeCollection = Route::getRoutes();
+        #dd($routeCollection);
+        foreach ($routeCollection as $value) {
+            $routes_list[] = Str::lower($value->getPath());
+        }
+        #dd($routes_list);
         foreach ($routes_list as $route) {
             $permission_exists = Permission::where('route_url','=',$route)->exists();
             if(!$permission_exists){
@@ -189,5 +238,5 @@ class PermissionController extends Controller
             }
         }
         return redirect()->route('index-permission');
-    }
+    }*/
 }

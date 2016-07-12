@@ -14,6 +14,16 @@
                 <th class="col-lg-4">Description</th>
                 <td>{{ isset($data->description)?$data->description:''}}</td>
             </tr>
+            <tr>
+                <th class="col-lg-4">Weight</th>
+                <td>
+                    @if($data->weight == 1) User and Above
+                    @elseif($data->weight == 2) Company Admin and Above
+                    @elseif($data->weight == 3) Admin and Above
+                    @elseif($data->weight == 4) Super Admin
+                    @endif
+                </td>
+            </tr>
         </table>
     </div>
 </div>

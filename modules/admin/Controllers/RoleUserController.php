@@ -36,12 +36,23 @@ class RoleUserController extends Controller
     {
         $pageTitle = "Role User Informations";
 
-        $data = DB::table('role_user')
-            ->join('user', 'user.id', '=', 'role_user.user_id')
-            ->join('role', 'role.id', '=', 'role_user.role_id')
-            ->where('role.title', '!=', 'super-admin')
-            ->select('role_user.id', 'user.username','user.email', 'role.title')
-            ->paginate(30);
+        $role_id=Session::get('role_id');
+        if($role_id== 1 || $role_id==2) {
+            $data = DB::table('role_user')
+                ->join('user', 'user.id', '=', 'role_user.user_id')
+                ->join('role', 'role.id', '=', 'role_user.role_id')
+                ->where('role.title', '!=', 'super-admin')
+                ->select('role_user.id', 'user.username', 'user.email', 'role.title')
+                ->paginate(30);
+        }else{
+            $data = DB::table('role_user')
+                ->join('user', 'user.id', '=', 'role_user.user_id')
+                ->join('role', 'role.id', '=', 'role_user.role_id')
+                ->where('role.title', '!=', 'super-admin')
+                ->where('role.company_id', Session::get('company_id'))
+                ->select('role_user.id', 'user.username', 'user.email', 'role.title')
+                ->paginate(30);
+        }
         /*$data = new RoleUser();
         $data = $data->join('role','role.id','=','role_id');
         $data = $data->join('user','user.id','=','user_id');

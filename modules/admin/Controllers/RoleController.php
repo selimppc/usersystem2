@@ -19,11 +19,18 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $role_title = Input::get('title');
         $pageTitle = "List of Role Informations";
-        $data = Role::where('status','!=','cancel')->where('title', 'LIKE', '%'.$role_title.'%')->paginate(30);
+        $role_id=Session::get('role_id');
+        if($role_id== 1 || $role_id==2)
+        {
+            $data = Role::where('status', '!=', 'cancel')->where('title', 'LIKE', '%' . $role_title . '%')->paginate(30);
+        }else {
+            $data = Role::where('status', '!=', 'cancel')->where('title', 'LIKE', '%' . $role_title . '%')->where('company_id', Session::get('company_id'))->paginate(30);
+        }
         //print_r($data);exit;
         return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle]);
 
@@ -39,7 +46,7 @@ class RoleController extends Controller
     public function store_role(Requests\RoleRequest $request)
     {
         $input = $request->all();
-
+        $input['company_id']=Session::get('company_id');
         $input['slug'] = str_slug(strtolower($input['title']));
 
         /* Transaction Start Here */

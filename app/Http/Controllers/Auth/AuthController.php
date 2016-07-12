@@ -201,6 +201,8 @@ class AuthController extends Controller
 
                                 Session::put('email', $user_data->email);
                                 Session::put('user_id', $user_data->id);
+                                Session::put('company_id', $user_data->company_id);
+                                Session::put('role_id', $user_data->role_id);
                                 Session::flash('message', "Successfully  Logged In.");
 
                                 $this->menu_permission();

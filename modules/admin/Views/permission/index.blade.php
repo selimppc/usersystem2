@@ -38,6 +38,7 @@
                         <thead>
                         <tr>
                             <th> Title </th>
+                            <th> Weight </th>
                             <th> Action &nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="view : click for details informations"></span></th>
                         </tr>
                         </thead>
@@ -47,6 +48,14 @@
                                 <tr class="gradeX">
                                     <td>{{ucfirst($values->title)}}</td>
                                     <td>
+                                        @if($values->weight == 1) User and Above
+                                        @elseif($values->weight == 2) Company Admin and Above
+                                        @elseif($values->weight == 3) Admin and Above
+                                        @elseif($values->weight == 4) Super Admin
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('edit-permission', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="Edit"><i class="fa fa-edit"></i></a>
                                         <a href="{{ route('view-permission', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>
                                         {{--<a href="{{ route('edit-permission', $values->route_url) }}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="update"><i class="fa fa-edit"></i></a>
                                         <a href="{{ route('delete-permission', $values->route_url) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to Delete?')" data-placement="top" data-content="delete"><i class="fa fa-trash-o"></i></a>--}}

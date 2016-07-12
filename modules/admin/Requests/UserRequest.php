@@ -42,17 +42,24 @@ class UserRequest extends Request
 
             return [
                 'email'   => 'required|unique:user,email,' . $id,
-                'username'   => 'required|unique:user,username,' . $id
+                'username'   => 'required|unique:user,username,' . $id,
+                'title'   => 'required|unique:company,title'
             ];
 
         }else{
             return [
-
 
             ];
 
         }
 
 
+    }
+    public function messages()
+    {
+        return [
+            'title.unique' => 'Company Name has been taken.',
+            'title.required' => 'Company Name is required.'
+        ];
     }
 }
