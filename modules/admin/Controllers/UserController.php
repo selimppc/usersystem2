@@ -76,6 +76,22 @@ class UserController extends Controller
                 $company_id = $company_ids->id;
             }
 
+            $input_role = [
+                'title'=>'com-admin',
+                'slug'=>'com-admin',
+                'status'=>'active',
+                'company_id'=>$company_id,
+                'type'=>'cadmin',
+                'created_by'=>1,
+            ];
+            $role_exists = DB::table('role')->where('slug', '=', 'com-admin')->where('company_id', '=', $company_id)->exists();
+            if($role_exists){
+                Session::flash('message', 'This Company Admin already exists');
+                return redirect()->back();
+            }else{
+                $role_ids = Role::create($input_role);
+                $role_id = $role_ids->id;
+            }
 
             #print_r($role_id);exit;
 
@@ -92,7 +108,7 @@ class UserController extends Controller
                 'ip_address'=> getHostByName(getHostName()),
                 #'last_visit'=> date('Y-m-d h:i:s', time()),
                 'company_id'=> $company_id,
-                'role_id'=> 3,
+                'role_id'=> $role_id,
                 'last_visit'=> date('Y-m-d h:i:s', time()),
                 'expire_date'=> $date,
                 'status'=> 'active',
@@ -102,7 +118,7 @@ class UserController extends Controller
             $user_id = User::create($input_data);
 
             $input_role_user = [
-                'role_id'=>3,
+                'role_id'=>$role_id,
                 'user_id'=>$user_id->id,
                 'status'=>'active',
                 'created_by'=>1
@@ -285,7 +301,7 @@ class UserController extends Controller
         $pageTitle = "User List";
 
         $role_id=Session::get('role_id');
-        if($role_id== 1 || $role_id==2) {
+        if($role_id== 'sadmin' || $role_id=='admin') {
             $model = User::with('relDepartment')->where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{

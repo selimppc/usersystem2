@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use App\Role;
 use App\User;
 use App\UserActivity;
 use App\UserLoginHistory;
@@ -199,10 +200,12 @@ class AuthController extends Controller
                                 ];
                                 $user_model->create($user_history);
 
+                                $role=Role::findOrFail($user_data->role_id);
+
                                 Session::put('email', $user_data->email);
                                 Session::put('user_id', $user_data->id);
                                 Session::put('company_id', $user_data->company_id);
-                                Session::put('role_id', $user_data->role_id);
+                                Session::put('role_id', $role->type);
                                 Session::flash('message', "Successfully  Logged In.");
 
                                 $this->menu_permission();

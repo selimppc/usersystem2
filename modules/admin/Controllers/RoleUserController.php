@@ -37,7 +37,7 @@ class RoleUserController extends Controller
         $pageTitle = "Role User Informations";
 
         $role_id=Session::get('role_id');
-        if($role_id== 1 || $role_id==2) {
+        if($role_id== 'sadmin' || $role_id=='admin') {
             $data = DB::table('role_user')
                 ->join('user', 'user.id', '=', 'role_user.user_id')
                 ->join('role', 'role.id', '=', 'role_user.role_id')

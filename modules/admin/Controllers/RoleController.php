@@ -25,7 +25,7 @@ class RoleController extends Controller
         $role_title = Input::get('title');
         $pageTitle = "List of Role Informations";
         $role_id=Session::get('role_id');
-        if($role_id== 1 || $role_id==2)
+        if($role_id== 'sadmin' || $role_id=='admin')
         {
             $data = Role::where('status', '!=', 'cancel')->where('title', 'LIKE', '%' . $role_title . '%')->paginate(30);
         }else {

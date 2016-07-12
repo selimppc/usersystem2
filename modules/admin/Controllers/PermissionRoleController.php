@@ -31,13 +31,16 @@ class PermissionRoleController extends Controller
         $pageTitle = "Permission Role List";
 
         $role_id=Session::get('role_id');
-        if($role_id== 1 || $role_id==2) {
+        if($role_id== 'sadmin' || $role_id=='admin') {
             $data = DB::table('permission_role')
                 ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
                 ->join('role', 'role.id', '=', 'permission_role.role_id')
                 ->where('role.title', '!=', 'super-admin')
                 ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title')
                 ->paginate(30);
+
+
+            $role=  [''=>'Select Role'] +  Role::where('role.title', '!=', 'super-admin')->lists('title','id')->all();
         }else{
             $data = DB::table('permission_role')
                 ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
@@ -46,12 +49,22 @@ class PermissionRoleController extends Controller
                 ->where('role.company_id', Session::get('company_id'))
                 ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title')
                 ->paginate(30);
+
+            $role=  [''=>'Select Role'] +  Role::where('role.title', '!=', 'super-admin')->where('company_id', Session::get('company_id'))->lists('title','id')->all();
+        }
+        if($role_id==1)
+        {
+            $permission_id = Permission::where('weight','<',4)->lists('title','id')->all();
+        }elseif($role_id==2)
+        {
+            $permission_id = Permission::where('weight','<',3)->lists('title','id')->all();
+        }else
+        {
+            $permission_id = Permission::where('weight','<',2)->lists('title','id')->all();
         }
         //$data = PermissionRole::where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
-        $permission_id = Permission::lists('title','id')->all();
         #$role_id = [''=>'Select Role'] + Role::lists('title','id')->all();
-        $role_id =  [''=>'Select Role'] +  Role::where('role.title', '!=', 'super-admin')->lists('title','id')->all();
-        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role_id]);
+        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role]);
     }
 
 
