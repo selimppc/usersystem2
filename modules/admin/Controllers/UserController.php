@@ -328,6 +328,7 @@ class UserController extends Controller
         $pageTitle = 'User Informations';
         $model = new User();
 
+        $role_id=Session::get('role_id');
         if($this->isGetRequest()){
             $department_id = Input::get('department_id');
             $username = Input::get('username');
@@ -345,6 +346,9 @@ class UserController extends Controller
                 $model = $model->where('user.status', '=', $status);
             }
 
+            if($role_id != 'sadmin' && $role_id !='admin') {
+                $model = $model->where('user.company_id', '=', Session::get('company_id'));
+            }
             $model = $model->paginate(30);
 
         }else{
@@ -356,7 +360,13 @@ class UserController extends Controller
         $days= date('Y/m/d H:i:s', strtotime($add_days, strtotime(date('Y/m/d H:i:s'))));
 
         $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
-        $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
+
+        if($role_id== 'sadmin' || $role_id=='admin') {
+            $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
+        }else{
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
+        }
+        #$role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
 
 
         return view('admin::user.index',['pageTitle'=>$pageTitle,'department_data'=>$department_data,'model'=>$model,'role'=>$role,'days'=>$days]);

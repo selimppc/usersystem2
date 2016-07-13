@@ -4,7 +4,6 @@
 @stop
 
 @section('content')
-
         <!-- page start-->
 <div class="row">
     <div class="col-sm-12">

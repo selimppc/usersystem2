@@ -56,7 +56,8 @@ Route::any('index-permission-role', [
 ]);
 
 Route::any('store-permission-role', [
-   'middleware' => 'super_admin_access:store-permission-role',
+//   'middleware' => 'super_admin_access:store-permission-role',
+   'middleware' => 'acl_access:store-permission-role',
     'as' => 'store-permission-role',
     'uses' => 'PermissionRoleController@store'
 ]);

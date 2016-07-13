@@ -14,6 +14,12 @@
         {!! Form::Select('status',array('active'=>'Active','inactive'=>'Inactive'),Input::old('status'),['class'=>'form-control ','required']) !!}
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-12">
+            {!! Form::label('type', 'Type:', ['class' => 'control-label']) !!}
+        {!! Form::Select('type',array('admin'=>'Admin','cadmin'=>'Company Admin','user'=>'User'),Input::old('status'),['class'=>'form-control ','required']) !!}
+        </div>
+    </div>
 </div>
 
 <div class="footer-form-margin-btn">

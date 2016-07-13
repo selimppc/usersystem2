@@ -29,7 +29,7 @@ class RoleController extends Controller
         {
             $data = Role::where('status', '!=', 'cancel')->where('title', 'LIKE', '%' . $role_title . '%')->paginate(30);
         }else {
-            $data = Role::where('status', '!=', 'cancel')->where('title', 'LIKE', '%' . $role_title . '%')->where('company_id', Session::get('company_id'))->paginate(30);
+            $data = Role::where('status', '!=', 'cancel')->where('type', '!=', 'cadmin')->where('title', 'LIKE', '%' . $role_title . '%')->where('company_id', Session::get('company_id'))->paginate(30);
         }
         //print_r($data);exit;
         return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle]);
@@ -47,6 +47,7 @@ class RoleController extends Controller
     {
         $input = $request->all();
         $input['company_id']=Session::get('company_id');
+
         $input['slug'] = str_slug(strtolower($input['title']));
 
         /* Transaction Start Here */
