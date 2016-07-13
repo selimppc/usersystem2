@@ -306,7 +306,8 @@ class UserController extends Controller
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{
             $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
-            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
+
         }
 
         $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
@@ -364,7 +365,8 @@ class UserController extends Controller
         if($role_id== 'sadmin' || $role_id=='admin') {
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{
-            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
+
         }
         #$role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
 
@@ -442,7 +444,15 @@ class UserController extends Controller
         $data = User::with('relDepartment')->findOrFail($id);
 
         $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
-        $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
+        $role_id=Session::get('role_id');
+        if($role_id== 'sadmin' || $role_id=='admin') {
+            $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
+        }else{
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
+        }
+
+
+//        $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
 
         return view('admin::user.update', ['pageTitle'=>$pageTitle,'data' => $data,'department_data'=>$department_data,'role'=>$role]);
     }
@@ -508,6 +518,7 @@ class UserController extends Controller
      */
     public function destroy_user($id)
     {
+
         $model = User::where('id',$id)->first();
 
         DB::beginTransaction();
