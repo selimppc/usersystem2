@@ -32,7 +32,7 @@ class RoleController extends Controller
             $data = Role::where('status', '!=', 'cancel')->where('type', '!=', 'cadmin')->where('title', 'LIKE', '%' . $role_title . '%')->where('company_id', Session::get('company_id'))->paginate(30);
         }
         //print_r($data);exit;
-        return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle]);
+        return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle,'role_type'=>$role_id]);
 
     }
 

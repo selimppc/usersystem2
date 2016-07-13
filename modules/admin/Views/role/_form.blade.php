@@ -14,12 +14,16 @@
         {!! Form::Select('status',array('active'=>'Active','inactive'=>'Inactive'),Input::old('status'),['class'=>'form-control ','required']) !!}
         </div>
     </div>
+    @if($role_type=='sadmin' || $role_type=='admin')
     <div class="row">
         <div class="col-sm-12">
             {!! Form::label('type', 'Type:', ['class' => 'control-label']) !!}
-        {!! Form::Select('type',array('admin'=>'Admin','cadmin'=>'Company Admin','user'=>'User'),Input::old('status'),['class'=>'form-control ','required']) !!}
+        {!! Form::Select('type',array('admin'=>'Admin','cadmin'=>'Company Admin','user'=>'User'),Input::old('type'),['class'=>'form-control ','required']) !!}
         </div>
     </div>
+    @else
+        <input type="hidden" name="type" value="user">
+    @endif
 </div>
 
 <div class="footer-form-margin-btn">
