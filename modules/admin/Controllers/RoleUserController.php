@@ -51,7 +51,7 @@ class RoleUserController extends Controller
             $data = DB::table('role_user')
                 ->join('user', 'user.id', '=', 'role_user.user_id')
                 ->join('role', 'role.id', '=', 'role_user.role_id')
-                ->where('role.type', '!=', 'sadmin')
+                ->where('role.type', '!=', 'cadmin')
                 ->where('user.company_id', Session::get('company_id'))
                 ->select('role_user.id', 'user.username', 'user.email', 'role.title')
                 ->paginate(30);
