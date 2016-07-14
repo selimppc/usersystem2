@@ -17,9 +17,11 @@
                     <strong>Add New Permission Role</strong>
                 </a>
                 <input type="button" id="deleteBatch" class="btn btn-primary btn-xs" value="Delete Selected Permission Role" style="display: none;"  onclick="submitForm()" {{--"return confirm('Are you sure to Delete?')"--}}>
+                @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user')
                 <a class="btn btn-info btn-xs pull-right pop" href="{{route('index-permission')}}" data-placement="left" data-content="Click to redirect in permission page" style="margin-right: 10px;">
                     <strong>Go to permission page</strong>
                 </a>
+                @endif
             </div>
             <div class="panel-body">
                 {{-------------- Filter :Starts -------------------------------------------}}

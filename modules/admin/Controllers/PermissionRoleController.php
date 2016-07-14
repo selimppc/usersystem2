@@ -80,25 +80,48 @@ class PermissionRoleController extends Controller
 
         $pageTitle = "Permission Role List";
 
+        $r_id=Session::get('role_id');
         $role_id = Input::get('role_id');
         $permission_name = Input::get('permission_name');
         $data = new PermissionRole();
 
         $data = $data->select('permission_role.*');
-        if(isset($role_id) && !empty($role_id)){
-            $data = $data->leftJoin('role','role.id','=','permission_role.role_id');
-            $data = $data->where('permission_role.role_id','=',$role_id);
-            $data = $data->where('role.type', '!=', 'sadmin');
+        if($r_id== 'sadmin' || $r_id=='admin') {
+            if (isset($role_id) && !empty($role_id)) {
+                $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
+                $data = $data->where('permission_role.role_id', '=', $role_id);
+                $data = $data->whereNotIn('role.type', ['sadmin']);
+            }
+            if (isset($permission_name) && !empty($permission_name)) {
+                $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
+                $data = $data->whereNotIn('role.type', ['sadmin']);
+                $data = $data->where('company_id', Session::get('company_id'));
+                $data = $data->leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id');
+                $data = $data->where('permissions.title', 'LIKE', '%' . $permission_name . '%');
+            }
+        }else{
+            if (isset($role_id) && !empty($role_id)) {
+                $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
+                $data = $data->where('permission_role.role_id', '=', $role_id);
+                $data = $data->whereNotIn('role.type', ['sadmin', 'admin']);
+            }
+            if (isset($permission_name) && !empty($permission_name)) {
+                $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
+                $data = $data->whereNotIn('role.type', ['sadmin', 'admin']);
+                $data = $data->where('company_id', Session::get('company_id'));
+                $data = $data->leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id');
+                $data = $data->where('permissions.title', 'LIKE', '%' . $permission_name . '%');
+            }
+
         }
-        if(isset($permission_name) && !empty($permission_name)){
-            $data = $data->leftJoin('permissions','permissions.id','=','permission_role.permission_id');
-            $data = $data->where('permissions.title', 'LIKE', '%'.$permission_name.'%');
+        if(empty($permission_name) && empty($role_id))
+        {
+            return $this->index();
         }
         $data = $data->paginate(30);
 
 
-        $role_id=Session::get('role_id');
-        if($role_id== 'sadmin' || $role_id=='admin') {
+        if($r_id== 'sadmin' || $r_id=='admin') {
             $role=  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
         }else{
             $role=  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('company_id', Session::get('company_id'))->lists('title','id')->all();
