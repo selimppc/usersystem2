@@ -52,15 +52,21 @@ class PermissionRoleController extends Controller
 
             $role=  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('company_id', Session::get('company_id'))->lists('title','id')->all();
         }
-        if($role_id=='sadmin')
-        {
+        if($role_id=='sadmin'){
             $permission_id = Permission::where('weight','<=',4)->lists('title','id')->all();
-        }elseif($role_id=='admin')
-        {
+        }elseif($role_id=='admin'){
             $permission_id = Permission::where('weight','<=',3)->lists('title','id')->all();
-        }elseif($role_id=='cadmin')
-        {
-            $permission_id = Permission::where('weight','<=',2)->lists('title','id')->all();
+        }elseif($role_id=='cadmin'){
+            $user_role_id= Role::where('type','user')->where('company_id',Session::get('company_id'))->first();
+            $user_permitted_role= PermissionRole::select('permission_id')->where('role_id',$user_role_id->id)->get();
+            $permitted_id=[];
+            foreach ($user_permitted_role as $id => $value) {
+                $permitted_id[]=$value->permission_id;
+            }
+
+            $permission_id= Permission::whereIn('id',$permitted_id)->lists('title','id')->all();
+//            dd($permission_id);
+//            $permission_id = Permission::where('weight','<=',2)->lists('title','id')->all();
         }else{
             $permission_id = Permission::where('weight','<=',1)->lists('title','id')->all();
         }
