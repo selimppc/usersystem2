@@ -179,9 +179,21 @@ class RoleUserController extends Controller
     {
         $pageTitle = 'Update Role User Informations';
         $data = RoleUser::where('id',$id)->first();
-        $user_id = User::lists('username','id');
-        $role_id = Role::lists('title','id');
-        return view('admin::role_user.update', ['data' => $data, 'pageTitle'=> $pageTitle, 'user_id' => $user_id, 'role_id'=>$role_id]);
+
+        $role_id=Session::get('role_id');
+        if($role_id== 'sadmin' || $role_id=='admin') {
+            $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->lists('username','id')->all();
+
+            $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
+        }else{
+            $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
+
+            $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
+        }
+
+//        $user_id = User::lists('username','id');
+//        $role_id = Role::lists('title','id');
+        return view('admin::role_user.update', ['data' => $data, 'pageTitle'=> $pageTitle, 'user_id' => $user_id, 'role_id'=>$role]);
     }
 
     /**

@@ -344,10 +344,10 @@ class UserController extends Controller
 
         $role_id=Session::get('role_id');
         if($role_id== 'sadmin' || $role_id=='admin') {
-            $model = User::with('relDepartment')->where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
+            $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{
-            $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
+            $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
 
         }
@@ -378,7 +378,7 @@ class UserController extends Controller
             $status = Input::get('status');
 
             $model = $model->select('user.*');
-
+            $model = $model->where('id', '!=', Session::get('user_id'));
             if(isset($username) && !empty($username)){
                 $model = $model->where('user.username', 'LIKE', '%'.$username.'%');
             }

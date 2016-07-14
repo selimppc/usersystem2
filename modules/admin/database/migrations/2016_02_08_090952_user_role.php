@@ -120,7 +120,7 @@ class UserRole extends Migration
             $table->string('title', 64)->nullable();
             $table->string('route_url',64)->nullable();
             $table->text('description')->nullable();
-            $table->enum('weight',array('4','3','2','1'))->nullable();
+            $table->enum('weight',array(1,2,3,4))->nullable();
             $table->integer('created_by', false, 11);
             $table->integer('updated_by', false, 11);
             $table->timestamps();
