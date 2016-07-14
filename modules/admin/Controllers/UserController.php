@@ -5,6 +5,8 @@ namespace Modules\Admin\Controllers;
 
 use App\Department;
 use App\Helpers\LogFileHelper;
+use App\Permission;
+use App\PermissionRole;
 use App\RoleUser;
 use App\UserActivity;
 use App\UserImage;
@@ -59,6 +61,7 @@ class UserController extends Controller
             'description'=>$input['description'],
             'created_by'=>1
         ];
+        $company_name=str_replace(' ','-',$input['title']);
 
         DB::beginTransaction();
         try{
@@ -77,8 +80,8 @@ class UserController extends Controller
             }
 
             $input_role = [
-                'title'=>'com-admin',
-                'slug'=>'com-admin',
+                'title'=>$input['title'],
+                'slug'=>$company_name.'-admin',
                 'status'=>'active',
                 'company_id'=>$company_id,
                 'type'=>'cadmin',
@@ -123,10 +126,49 @@ class UserController extends Controller
                 'status'=>'active',
                 'created_by'=>1
             ];
+            RoleUser::create($input_role_user);
+            // Give permission for com-admin
+            $permissions= Permission::select('id')->where('weight','<=',2)->get();
+            if(isset($permissions) && !empty($permissions))
+            {
+                foreach ($permissions as $permission) {
+                    $role_permission= new PermissionRole();
+                    $role_permission->role_id=$role_id;
+                    $role_permission->permission_id= $permission->id;
+                    $role_permission->status= 'active';
+                    $role_permission->save();
+                }
+            }
+
 
             #print_r($input_role_user);exit;
 
-            RoleUser::create($input_role_user);
+            // Create default user role
+            $input_user_role = [
+                'title'=>$input['title'].' user',
+                'slug'=>$company_name.'-user',
+                'status'=>'active',
+                'company_id'=>$company_id,
+                'type'=>'user',
+                'created_by'=>1,
+            ];
+            $user_role= Role::create($input_user_role);
+
+            // Give permission for user role
+            $permissions= Permission::select('id')->where('weight',1)->get();
+            if(isset($permissions) && !empty($permissions))
+            {
+                foreach ($permissions as $permission) {
+                    $role_permission= new PermissionRole();
+                    $role_permission->role_id=$user_role->id;
+                    $role_permission->permission_id= $permission->id;
+                    $role_permission->status= 'active';
+                    $role_permission->save();
+                }
+            }
+
+
+
 
             DB::commit();
             Session::flash('message', 'Successfully Completed Signup Process!You may login now ');

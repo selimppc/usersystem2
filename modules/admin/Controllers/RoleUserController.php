@@ -44,7 +44,7 @@ class RoleUserController extends Controller
                 ->where('role.type', '!=', 'sadmin')
                 ->select('role_user.id', 'user.username', 'user.email', 'role.title')
                 ->paginate(30);
-            $user_id = [''=>'Select User'] + User::lists('username','id')->all();
+            $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->lists('username','id')->all();
 
             $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
         }else{
@@ -55,7 +55,7 @@ class RoleUserController extends Controller
                 ->where('user.company_id', Session::get('company_id'))
                 ->select('role_user.id', 'user.username', 'user.email', 'role.title')
                 ->paginate(30);
-            $user_id = [''=>'Select User'] + User::where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
+            $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
 
             $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
         }
@@ -121,11 +121,11 @@ class RoleUserController extends Controller
 
 
         if($role_id_session== 'sadmin' || $role_id_session=='admin') {
-            $user_id = [''=>'Select User'] + User::lists('username','id')->all();
+            $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->lists('username','id')->all();
 
             $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
         }else{
-            $user_id = [''=>'Select User'] + User::where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
+            $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
 
             $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
         }

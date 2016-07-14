@@ -28,11 +28,20 @@ class RoleController extends Controller
         if($role_id== 'sadmin' || $role_id=='admin')
         {
             $data = Role::where('status', '!=', 'cancel')->where('title', 'LIKE', '%' . $role_title . '%')->paginate(30);
+            $protected=0;
         }else {
             $data = Role::where('status', '!=', 'cancel')->where('type', '!=', 'cadmin')->where('title', 'LIKE', '%' . $role_title . '%')->where('company_id', Session::get('company_id'))->paginate(30);
+            if(!empty($data) && count($data)>=1)
+            {
+                $protected= $data[0]->id;
+            }else{
+                $protected = 0;
+            }
+
         }
+        //if(isset($protected)) exit('set'); else exit('not set');
         //print_r($data);exit;
-        return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle,'role_type'=>$role_id]);
+        return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle,'role_type'=>$role_id,'protected'=>$protected]);
 
     }
 
