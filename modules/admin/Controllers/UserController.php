@@ -80,8 +80,8 @@ class UserController extends Controller
             }
 
             $input_role = [
-                'title'=>$input['title'],
-                'slug'=>$company_name.'-admin',
+                'title'=>$input['title'].' | Com. Admin',
+                'slug'=>strtolower($company_name.'-cadmin'),
                 'status'=>'active',
                 'company_id'=>$company_id,
                 'type'=>'cadmin',
@@ -145,8 +145,8 @@ class UserController extends Controller
 
             // Create default user role
             $input_user_role = [
-                'title'=>$input['title'].' user',
-                'slug'=>$company_name.'-user',
+                'title'=>$input['title'].' | Com. User',
+                'slug'=>strtolower($company_name.'-user'),
                 'status'=>'active',
                 'company_id'=>$company_id,
                 'type'=>'user',

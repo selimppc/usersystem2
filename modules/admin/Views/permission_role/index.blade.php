@@ -27,6 +27,11 @@
                 {{-------------- Filter :Starts -------------------------------------------}}
                 {!! Form::open(['method' =>'GET','url'=>'/search-permission-role']) !!}
                 <div id="index-search">
+                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                        <div class="col-sm-3">
+                            {!! Form::Select('company_id',($company), @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control', 'title'=>'select your require "Company", then click "search" button']) !!}
+                        </div>
+                    @endif
                     <div class="col-sm-3">
                         {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
                     </div>
@@ -51,6 +56,9 @@
                             <th><input type="checkbox" id="checkAll">&nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="check for select permission roles delete"></span></th>
                             <th> Role </th>
                             <th> Permission </th>
+                            @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                                <th>Company</th>
+                            @endif
                             <th> Action &nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="view : click for details information<br>update : click for update information"></span></th>
                         </tr>
                         </thead>
@@ -61,6 +69,9 @@
                                     <td><input type="checkbox" name="pr_ids[]" value="{{ $values->id }}"></td>
                                     <td>{{isset($values->r_title)?ucfirst($values->r_title):ucfirst($values->relRole->title)}}</td>
                                     <td>{{isset($values->p_title)?ucfirst($values->p_title):ucfirst($values->relPermission->title)}}</td>
+                                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                                        <td>{{ $values->company_title }}</td>
+                                    @endif
                                     <td>
                                         <a href="{{ route('view-permission-role', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>
                                         <a href="{{ route('delete-permission-role', $values->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to Delete?')" data-placement="top" data-content="delete"><i class="fa fa-trash-o"></i></a>

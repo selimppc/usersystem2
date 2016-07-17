@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use App\Company;
 
 class PermissionRoleController extends Controller
 {
@@ -35,12 +36,14 @@ class PermissionRoleController extends Controller
             $data = DB::table('permission_role')
                 ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
                 ->join('role', 'role.id', '=', 'permission_role.role_id')
+                ->leftjoin('company','company.id','=','role.company_id')
                 ->where('role.type', '!=', 'sadmin')
-                ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title')
+                ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title', 'company.title as company_title')
                 ->paginate(30);
 
 
             $role=  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
+            $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
         }else{
             $data = DB::table('permission_role')
                 ->join('permissions', 'permissions.id', '=', 'permission_role.permission_id')
@@ -51,6 +54,7 @@ class PermissionRoleController extends Controller
                 ->paginate(30);
 
             $role=  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('company_id', Session::get('company_id'))->lists('title','id')->all();
+            $company=[];
         }
         if($role_id=='sadmin'){
             $permission_id = Permission::where('weight','<=',4)->lists('title','id')->all();
@@ -72,7 +76,7 @@ class PermissionRoleController extends Controller
         }
         //$data = PermissionRole::where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
         #$role_id = [''=>'Select Role'] + Role::lists('title','id')->all();
-        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role]);
+        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role,'company'=>$company]);
     }
 
 
@@ -82,6 +86,7 @@ class PermissionRoleController extends Controller
 
         $r_id=Session::get('role_id');
         $role_id = Input::get('role_id');
+        $company_id=Input::get('company_id');
         $permission_name = Input::get('permission_name');
         $data = new PermissionRole();
 
@@ -89,8 +94,13 @@ class PermissionRoleController extends Controller
         if($r_id== 'sadmin' || $r_id=='admin') {
             if (isset($role_id) && !empty($role_id)) {
                 $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
-                $data = $data->where('permission_role.role_id', '=', $role_id);
                 $data = $data->whereNotIn('role.type', ['sadmin']);
+                $data = $data->where('permission_role.role_id', '=', $role_id);
+            }
+            if (isset($company_id) && !empty($company_id)) {
+                $data = $data->leftJoin('role as role_com', 'role_com.id', '=', 'permission_role.role_id');
+                $data = $data->where('role_com.company_id', $company_id);
+                $data = $data->whereNotIn('role_com.type', ['sadmin']);
             }
             if (isset($permission_name) && !empty($permission_name)) {
                 $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
@@ -99,6 +109,7 @@ class PermissionRoleController extends Controller
                 $data = $data->leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id');
                 $data = $data->where('permissions.title', 'LIKE', '%' . $permission_name . '%');
             }
+            $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
         }else{
             if (isset($role_id) && !empty($role_id)) {
                 $data = $data->leftJoin('role', 'role.id', '=', 'permission_role.role_id');
@@ -112,9 +123,9 @@ class PermissionRoleController extends Controller
                 $data = $data->leftJoin('permissions', 'permissions.id', '=', 'permission_role.permission_id');
                 $data = $data->where('permissions.title', 'LIKE', '%' . $permission_name . '%');
             }
-
+            $company=  [];
         }
-        if(empty($permission_name) && empty($role_id))
+        if(empty($permission_name) && empty($role_id) && empty($company_id))
         {
             return $this->index();
         }
@@ -142,7 +153,7 @@ class PermissionRoleController extends Controller
         #$permission_id = Permission::lists('title','id')->all();
         #$role_id = [''=>'Select Role'] + Role::lists('title','id')->all();
         #$role_id =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
-        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role]);
+        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role,'company'=>$company]);
     }
 
     public function store(Requests\PermissionRoleRequest $request){

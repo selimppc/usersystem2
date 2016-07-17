@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Controllers;
 
+use App\Company;
 use App\Helpers\LogFileHelper;
 use App\Role;
 use Illuminate\Http\Request;
@@ -56,6 +57,8 @@ class RoleController extends Controller
     {
         $input = $request->all();
         $input['company_id']=Session::get('company_id');
+        $company_name= Company::findOrFail($input['company_id']);
+        $input['title']= $company_name->title.' | '.$input['title'];
 
         $input['slug'] = str_slug(strtolower($input['title']));
 

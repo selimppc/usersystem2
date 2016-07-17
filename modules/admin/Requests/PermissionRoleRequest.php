@@ -31,7 +31,7 @@ class PermissionRoleRequest extends Request
     public function rules()
     {
         return [
-            //'title' => 'required|max:64',
+            'permission_id' => 'required',
         ];
     }
 }
