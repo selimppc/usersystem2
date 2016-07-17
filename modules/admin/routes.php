@@ -19,10 +19,10 @@ Route::group(array('modules' => 'Admin', 'namespace' => 'Modules\Admin\Controlle
 				'uses' => 'UserController@create_sign_up',
 			]);
 
-        Route::any('signup', [
-        'as'   => 'signup',
-        'uses' => 'UserController@store_signup_info',
-            ]);
+		Route::any('signup', [
+				'as'   => 'signup',
+				'uses' => 'UserController@store_signup_info',
+			]);
 
 	});
 
@@ -57,57 +57,6 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
 		Route::any('validation-page', [
 				'as'   => 'validation-page',
 				'uses' => 'AdminController@validation_page',
-			]);
-
-		Route::any('homer', [
-				'as'   => 'homer',
-				'uses' => 'AdminController@homer',
-			]);
-
-		//Bord...............
-
-		Route::any('bord', [
-				'as'   => 'bord',
-				'uses' => 'BordController@bord_index',
-			]);
-
-		Route::any('channel', [
-				'as'   => 'channel',
-				'uses' => 'BordController@channel',
-			]);
-		Route::any('store-channel', [
-				'as'   => 'store-channel',
-				'uses' => 'BordController@store_channel',
-			]);
-
-		Route::any('flat', [
-				'as'   => 'flat',
-				'uses' => 'BordController@flat',
-			]);
-
-		Route::any('store-flat', [
-				'as'   => 'store-flat',
-				'uses' => 'BordController@store_flat',
-			]);
-
-		Route::any('achtergrond', [
-				'as'   => 'achtergrond',
-				'uses' => 'BordController@achtergrond',
-			]);
-
-		Route::any('store-achtergrond', [
-				'as'   => 'store-achtergrond',
-				'uses' => 'BordController@store_achtergrond',
-			]);
-
-		Route::any('lichtbakken', [
-				'as'   => 'lichtbakken',
-				'uses' => 'BordController@lichtbakken',
-			]);
-
-		Route::any('store-lichtbakken', [
-				'as'   => 'store-lichtbakken',
-				'uses' => 'BordController@store_lichtbakken',
 			]);
 
 		/**Menu Panel**/
@@ -246,10 +195,10 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
 				'uses' => 'UserController@save_new_password']);
 
 		/*Route::any('signup', [
-				//    'middleware' => 'acl_access:signup',
-				'as'   => 'signup',
-				'uses' => 'UserController@store_signup_info',
-			]);*/
+		//    'middleware' => 'acl_access:signup',
+		'as'   => 'signup',
+		'uses' => 'UserController@store_signup_info',
+		]);*/
 
 		Route::get('user-logout', [
 				'as'   => 'user-logout',
