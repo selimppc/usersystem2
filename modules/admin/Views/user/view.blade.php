@@ -19,10 +19,6 @@
                 <td>{{ isset($data->relRoleInfo->title)?ucfirst($data->relRoleInfo->title):'' }}</td>
             </tr>
             <tr>
-                <th class="col-lg-4">Department</th>
-                <td>{{ isset($data->relDepartment->title)?ucfirst($data->relDepartment->title):'' }}</td>
-            </tr>
-            <tr>
                <th class="col-lg-4">Last Visit Time</th>
                <td>{{ isset($data->last_visit)?$data->last_visit:'' }}</td>
             </tr>

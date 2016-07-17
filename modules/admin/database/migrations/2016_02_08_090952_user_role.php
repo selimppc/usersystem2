@@ -45,7 +45,7 @@ class UserRole extends Migration
 
         /* User Department */
 
-        Schema::create('department', function (Blueprint $table) {
+        /*Schema::create('department', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 64)->unique();
             $table->text('description', 128)->nullable();
@@ -55,7 +55,7 @@ class UserRole extends Migration
             $table->integer('updated_by', false, 11);
             $table->timestamps();
             $table->engine = 'InnoDB';
-        });
+        });*/
 
         /*user*/
 
@@ -74,7 +74,7 @@ class UserRole extends Migration
             $table->string('remember_token',64)->nullable();
             $table->unsignedInteger('company_id')->nullable();
             $table->unsignedInteger('role_id')->nullable();
-            $table->unsignedInteger('department_id')->nullable();
+//            $table->unsignedInteger('department_id')->nullable();
             $table->enum('status',array('active','inactive','cancel'))->nullable();
             $table->integer('created_by', false, 11);
             $table->integer('updated_by', false, 11);

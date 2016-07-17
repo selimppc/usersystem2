@@ -13,7 +13,7 @@ class CreateDumpUserSqlTable extends Migration
     public function up()
     {
 
-        DB::unprepared(file_get_contents("modules/admin/database/sql_dump/department.sql"));
+//        DB::unprepared(file_get_contents("modules/admin/database/sql_dump/department.sql"));
         DB::unprepared(file_get_contents("modules/admin/database/sql_dump/role.sql"));
         DB::unprepared(file_get_contents("modules/admin/database/sql_dump/user.sql"));
         DB::unprepared(file_get_contents("modules/admin/database/sql_dump/role_user.sql"));

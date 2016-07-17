@@ -3,7 +3,6 @@
 namespace Modules\Admin\Controllers;
 
 
-use App\Department;
 use App\Helpers\LogFileHelper;
 use App\Permission;
 use App\PermissionRole;
@@ -344,23 +343,23 @@ class UserController extends Controller
 
         $role_id=Session::get('role_id');
         if($role_id== 'sadmin' || $role_id=='admin') {
-            $model = User::with('relDepartment','relCompany')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->orderBy('id', 'DESC')->paginate(30);
+            $model = User::with('relCompany')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
             $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
         }else{
-            $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
+            $model = User::where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
 
             $company=  [];
         }
 
-        $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
+//        $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
         /*set 30days for expire-date to user*/
         $i=30;
         $add_days = +$i.' days';
         $days= date('Y/m/d H:i:s', strtotime($add_days, strtotime(date('Y/m/d H:i:s'))));
 
-        return view('admin::user.index', ['model' => $model, 'pageTitle'=> $pageTitle,'role'=>$role,'days'=>$days,'department_data'=>$department_data,'company'=>$company]);
+        return view('admin::user.index', ['model' => $model, 'pageTitle'=> $pageTitle,'role'=>$role,'days'=>$days,'company'=>$company]);
     }
     /*public function getRoutes(){
         \Artisan::call('route:list');
@@ -375,7 +374,6 @@ class UserController extends Controller
 
         $role_id=Session::get('role_id');
         if($this->isGetRequest()){
-            $department_id = Input::get('department_id');
             $company_id = Input::get('company_id');
             $username = Input::get('username');
             $status = Input::get('status');
@@ -384,9 +382,6 @@ class UserController extends Controller
             $model = $model->where('id', '!=', Session::get('user_id'));
             if(isset($username) && !empty($username)){
                 $model = $model->where('user.username', 'LIKE', '%'.$username.'%');
-            }
-            if(isset($department_id) && !empty($department_id)){
-                $model = $model->where('user.department_id', '=', $department_id);
             }
             if(isset($company_id) && !empty($company_id)){
                 $model = $model->where('user.company_id', '=', $company_id);
@@ -409,7 +404,6 @@ class UserController extends Controller
         $days= date('Y/m/d H:i:s', strtotime($add_days, strtotime(date('Y/m/d H:i:s'))));
 
         $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
-        $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
 
         if($role_id== 'sadmin' || $role_id=='admin') {
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
@@ -420,7 +414,7 @@ class UserController extends Controller
         #$role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
 
 
-        return view('admin::user.index',['pageTitle'=>$pageTitle,'department_data'=>$department_data,'model'=>$model,'role'=>$role,'days'=>$days,'company'=>$company]);
+        return view('admin::user.index',['pageTitle'=>$pageTitle,'model'=>$model,'role'=>$role,'days'=>$days,'company'=>$company]);
     }
     public function add_user(Requests\UserRequest $request){
 
@@ -439,7 +433,6 @@ class UserController extends Controller
                 'ip_address'=> getHostByName(getHostName()),
                 'last_visit'=> $now,
                 'company_id'=> Session::get('company_id'),
-                'department_id'=> $input['department_id'],
                 'role_id'=> $input['role_id'],
                 'expire_date'=> $input['expire_date'],
                 'status'=> $input['status'],
@@ -475,7 +468,7 @@ class UserController extends Controller
     public function show_user($id)
     {
         $pageTitle = 'User Informations';
-        $data = User::with('relDepartment','relRoleInfo')->where('id',$id)->first();
+        $data = User::with('relRoleInfo')->where('id',$id)->first();
 
         return view('admin::user.view', ['data' => $data, 'pageTitle'=> $pageTitle]);
     }
@@ -490,9 +483,8 @@ class UserController extends Controller
     {
         $pageTitle = 'Edit User Information';
 
-        $data = User::with('relDepartment')->findOrFail($id);
+        $data = User::findOrFail($id);
 
-        $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
         $role_id=Session::get('role_id');
         if($role_id== 'sadmin' || $role_id=='admin') {
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
@@ -503,7 +495,7 @@ class UserController extends Controller
 
 //        $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
 
-        return view('admin::user.update', ['pageTitle'=>$pageTitle,'data' => $data,'department_data'=>$department_data,'role'=>$role]);
+        return view('admin::user.update', ['pageTitle'=>$pageTitle,'data' => $data,'role'=>$role]);
     }
 
     /**
@@ -533,7 +525,6 @@ class UserController extends Controller
                 'csrf_token'=> str_random(30),
                 'ip_address'=> getHostByName(getHostName()),
                 'last_visit'=> $now,
-                'department_id'=> $input['department_id'],
                 'role_id'=> $input['role_id'],
                 'expire_date'=> $input['expire_date'],
                 'status'=> $input['status'],
@@ -599,9 +590,8 @@ class UserController extends Controller
             $profile_data = UserProfile::where('user_id',$user_id)->first();
             $user_image = UserImage::where('user_id',$user_id)->first();
             $user = User::where('id',$user_id)->first();
-            $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
 
-            return view('admin::user_info.index',['user_id'=>$user_id,'profile_data'=>$profile_data,'user_image'=>$user_image,'user'=>$user,'department_data'=>$department_data,'pageTitle'=>$pageTitle]);
+            return view('admin::user_info.index',['user_id'=>$user_id,'profile_data'=>$profile_data,'user_image'=>$user_image,'user'=>$user,'pageTitle'=>$pageTitle]);
         }
     }
     public function user_info($value){

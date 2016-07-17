@@ -68,17 +68,10 @@ INSERT INTO `permissions` (`id`, `title`, `route_url`, `description`,`weight`, `
 (63, 'store-profile-image', 'store-profile-image', null,1, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
 (64, 'edit-profile-image/{user_image_id}', 'edit-profile-image/{user_image_id}', null,1, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
 (65, 'update-profile-image/{user_image_id}', 'update-profile-image/{user_image_id}', null,1, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(66, 'department', 'department', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(67, 'add-department', 'add-department', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(68, 'view-department/{id}', 'view-department/{id}', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(69, 'delete-department/{id}', 'delete-department/{id}', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(70, 'edit-department/{id}', 'edit-department/{id}', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(71, 'update-department/{id}', 'update-department/{id}', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(72, 'search-department', 'search-department', null,3, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(73, 'form-elements', 'form-elements', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(74, 'reg-sample', 'reg-sample', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(75, 'admin', 'admin', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(76, 'content-page', 'content-page', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(77, 'validation-page', 'validation-page', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(78, 'store-permission-role', 'store-permission-role', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(66, 'form-elements', 'form-elements', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
+(67, 'reg-sample', 'reg-sample', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
+(68, 'admin', 'admin', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
+(69, 'content-page', 'content-page', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
+(70, 'validation-page', 'validation-page', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
+(71, 'store-permission-role', 'store-permission-role', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
