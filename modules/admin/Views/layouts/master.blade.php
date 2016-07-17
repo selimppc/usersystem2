@@ -167,6 +167,13 @@
         return d;
     });
 </script>
+@if(isset($modal) && $modal==1)
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#Modal2").modal('show');
+        });
+    </script>
+@endif
 
 </body>
 </html>

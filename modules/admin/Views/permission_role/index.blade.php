@@ -27,11 +27,6 @@
                 {{-------------- Filter :Starts -------------------------------------------}}
                 {!! Form::open(['method' =>'GET','url'=>'/search-permission-role']) !!}
                 <div id="index-search">
-                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
-                        <div class="col-sm-3">
-                            {!! Form::Select('company_id',($company), @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control', 'title'=>'select your require "Company", then click "search" button']) !!}
-                        </div>
-                    @endif
                     <div class="col-sm-3">
                         {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
                     </div>
@@ -56,7 +51,7 @@
                             <th><input type="checkbox" id="checkAll">&nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="check for select permission roles delete"></span></th>
                             <th> Role </th>
                             <th> Permission </th>
-                            @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                            @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='cadmin' )
                                 <th>Company</th>
                             @endif
                             <th> Action &nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="view : click for details information<br>update : click for update information"></span></th>
@@ -69,7 +64,7 @@
                                     <td><input type="checkbox" name="pr_ids[]" value="{{ $values->id }}"></td>
                                     <td>{{isset($values->r_title)?ucfirst($values->r_title):ucfirst($values->relRole->title)}}</td>
                                     <td>{{isset($values->p_title)?ucfirst($values->p_title):ucfirst($values->relPermission->title)}}</td>
-                                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='cadmin' )
                                         <td>{{ $values->company_title }}</td>
                                     @endif
                                     <td>
@@ -98,10 +93,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="click x button for close this entry form">×</button>
-                <h4 class="modal-title" id="myModalLabel">Add Permission Role Information <span style="color: #A54A7B" class="user-guideline" data-content="<em>Must Fill <b>Required</b> Field.    <b>*</b> Put cursor on input field for more informations</em>"><font size="2"></font> </span></h4>
+                <h4 class="modal-title" id="myModalLabel">Permission assign to a role <span style="color: #A54A7B" class="user-guideline" data-content="<em>Must Fill <b>Required</b> Field.    <b>*</b> Put cursor on input field for more informations</em>"><font size="2"></font> </span></h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['route' => 'store-permission-role','id' => 'form_2']) !!}
+                {!! Form::open(['route' => 'index-permission-role','id' => 'form_2']) !!}
                 @include('admin::permission_role._form')
                 {!! Form::close() !!}
             </div> <!-- / .modal-body -->
@@ -110,6 +105,22 @@
 </div>
 <!-- modal -->
 
+<div id="Modal2" class="modal fade" tabindex="" role="dialog" style="display: none;">
+{{--<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--}}
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="click x button for close this entry form">×</button>
+                <h4 class="modal-title" id="myModalLabel">Assign Permission To : {{isset($role_name)?ucfirst($role_name):''}}<span style="color: #A54A7B" class="user-guideline" data-content="<em>Must Fill <b>Required</b> Field. <b>*</b> Put cursor on input field for more informations</em>"><font size="2"></font> </span></h4>
+            </div>
+            <div class="modal-body">
+                {!! Form::open(['route'=> ['store-permission-role']]) !!}
+                @include('admin::permission_role._duallistbox_form')
+                {!! Form::close() !!}
+            </div> <!-- / .modal-body -->
+        </div> <!-- / .modal-content -->
+    </div> <!-- / .modal-dialog -->
+</div>
 
 <!-- Modal  -->
 
@@ -121,7 +132,6 @@
     </div>
 </div>
 
-<!-- modal -->
 <script>
 
     $("#checkAll").change(function () {
@@ -148,7 +158,33 @@
         }
     }
 </script>
+<!-- modal -->
+{{--<script>
 
+    $("#checkAll").change(function () {
+        $("input:checkbox").prop('checked', $(this).prop("checked"));
+        if($(this).prop("checked") == true){
+            $("#deleteBatch").show();
+        }
+        else{
+            $("#deleteBatch").hide();
+        }
+    });
+    $("table input:checkbox").on('change',function(){
+        if($(this).prop("checked") == true){
+            $("#deleteBatch").show();
+        }
+    });
+    function submitForm(){
+        var form = document.getElementById('formCheckbox');
+        var r = confirm("Press a button!");
+        if (r == true) {
+            form.submit();
+        } else {
+            return false;
+        }
+    }
+</script>--}}
 <!--script for this page only-->
 @if($errors->any())
     <script type="text/javascript">
@@ -157,6 +193,8 @@
         });
     </script>
 @endif
+
+
         <!-- form close for bathc delete -->
     {{--{!! Form::close() !!}--}}
 @stop
