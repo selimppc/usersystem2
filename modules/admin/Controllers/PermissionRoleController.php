@@ -38,7 +38,7 @@ class PermissionRoleController extends Controller
                 ->join('role', 'role.id', '=', 'permission_role.role_id')
                 ->leftjoin('company','company.id','=','role.company_id')
                 ->where('role.type', '!=', 'sadmin')
-                ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title', 'company.title as company_title')
+                ->select('permission_role.id', 'permissions.title as p_title', 'role.title as r_title', 'company.title as company_title', 'permission_role.role_id')
                 ->paginate(30);
 
 
