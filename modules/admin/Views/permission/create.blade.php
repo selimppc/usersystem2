@@ -50,10 +50,11 @@
                                             {{ucfirst($values)}}
                                         </td>
                                         <td>
-                                            {!! Form::radio('weight['.$id.']','1',null,['required'=>'required']) !!} User
-                                            {!! Form::radio('weight['.$id.']','2',null,['required'=>'required']) !!} Company Admin
-                                            {!! Form::radio('weight['.$id.']','3',null,['required'=>'required']) !!} Admin
-                                            {!! Form::radio('weight['.$id.']','4',null,['required'=>'required']) !!} Super Admin
+                                            <label>{!! Form::radio('weight['.$id.']','1',null,['required'=>'required']) !!} User</label>
+                                            <label>
+                                            {!! Form::radio('weight['.$id.']','2',null,['required'=>'required']) !!} Company Admin</label>
+                                            <label>{!! Form::radio('weight['.$id.']','3',null,['required'=>'required']) !!} Admin</label>
+                                            <label>{!! Form::radio('weight['.$id.']','4',null,['required'=>'required']) !!} Super Admin</label>
 
                                             {{--<a href="{{ route('view-permission', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>--}}
                                             {{--<a href="{{ route('edit-permission', $values->route_url) }}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="update"><i class="fa fa-edit"></i></a>
