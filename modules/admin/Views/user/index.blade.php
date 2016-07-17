@@ -31,7 +31,12 @@
                     <div class="col-sm-2">
                         {!! Form::Select('status',array(''=>'Status','inactive'=>'Inactive','active'=>'Active','cancel'=>'Cancel'),@Input::get('status')? Input::get('status') : null,['class'=>'form-control', 'title'=>'select your require "status", example :: open, then click "search" button']) !!}
                     </div>
-                    <div class="col-sm-3 filter-btn">
+                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                        <div class="col-sm-3">
+                            {!! Form::Select('company_id',$company, @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control', 'title'=>'select your require "company"']) !!}
+                        </div>
+                    @endif
+                    <div class="col-sm-2 filter-btn">
                         {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type user name or select department or both in specific field then click search button for required information')) !!}
                     </div>
                 </div>
@@ -47,6 +52,11 @@
                             <th> Username </th>
                             <th> Email </th>
                             <th> Department </th>
+                            @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                                <th>
+                                    Company
+                                </th>
+                            @endif
                             <th> Status &nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="you can change status from update page"></span></th>
                             <th> Expire Date </th>
                             <th> Action &nbsp;&nbsp;<span style="color: #A54A7B" class="user-guideline" data-placement="top" data-content="view : click for details informations<br>update : click for update informations<br>delete : click for delete informations"></span></th>
@@ -59,8 +69,10 @@
                                     <td>{{ucfirst($values->username)}}</td>
                                     <td>{{$values->email}}</td>
                                     <td>{{isset($values->relDepartment->title)?ucfirst($values->relDepartment->title):''}}</td>
+                                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                                        <td>{{isset($values->relCompany->title)?ucfirst($values->relCompany->title):''}}</td>
+                                    @endif
                                     <td>{{ucfirst($values->status)}}</td>
-                                    {{--<td>{{$values->expire_date}}</td>--}}
                                     <td>{{date('Y-m-d', strtotime($values->expire_date))}}</td>
                                     <td>
                                         <a href="{{ route('show-user', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>

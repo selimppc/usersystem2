@@ -19,4 +19,10 @@ class Company extends Model
     protected $fillable = [
         'title','description','created_by'
     ];
+    public function relUser(){
+        return $this->hasMany('App\User', 'company_id', 'id');
+    }
+    public function relRole(){
+        return $this->hasMany('App\Role', 'company_id', 'id');
+    }
 }

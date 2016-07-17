@@ -344,12 +344,14 @@ class UserController extends Controller
 
         $role_id=Session::get('role_id');
         if($role_id== 'sadmin' || $role_id=='admin') {
-            $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->orderBy('id', 'DESC')->paginate(30);
+            $model = User::with('relDepartment','relCompany')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
+            $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
         }else{
             $model = User::with('relDepartment')->where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
             $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
 
+            $company=  [];
         }
 
         $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
@@ -358,7 +360,7 @@ class UserController extends Controller
         $add_days = +$i.' days';
         $days= date('Y/m/d H:i:s', strtotime($add_days, strtotime(date('Y/m/d H:i:s'))));
 
-        return view('admin::user.index', ['model' => $model, 'pageTitle'=> $pageTitle,'role'=>$role,'days'=>$days,'department_data'=>$department_data]);
+        return view('admin::user.index', ['model' => $model, 'pageTitle'=> $pageTitle,'role'=>$role,'days'=>$days,'department_data'=>$department_data,'company'=>$company]);
     }
     /*public function getRoutes(){
         \Artisan::call('route:list');
@@ -374,6 +376,7 @@ class UserController extends Controller
         $role_id=Session::get('role_id');
         if($this->isGetRequest()){
             $department_id = Input::get('department_id');
+            $company_id = Input::get('company_id');
             $username = Input::get('username');
             $status = Input::get('status');
 
@@ -384,6 +387,9 @@ class UserController extends Controller
             }
             if(isset($department_id) && !empty($department_id)){
                 $model = $model->where('user.department_id', '=', $department_id);
+            }
+            if(isset($company_id) && !empty($company_id)){
+                $model = $model->where('user.company_id', '=', $company_id);
             }
             if(isset($status) && !empty($status)){
                 $model = $model->where('user.status', '=', $status);
@@ -402,6 +408,7 @@ class UserController extends Controller
         $add_days = +$i.' days';
         $days= date('Y/m/d H:i:s', strtotime($add_days, strtotime(date('Y/m/d H:i:s'))));
 
+        $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
         $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
 
         if($role_id== 'sadmin' || $role_id=='admin') {
@@ -413,7 +420,7 @@ class UserController extends Controller
         #$role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
 
 
-        return view('admin::user.index',['pageTitle'=>$pageTitle,'department_data'=>$department_data,'model'=>$model,'role'=>$role,'days'=>$days]);
+        return view('admin::user.index',['pageTitle'=>$pageTitle,'department_data'=>$department_data,'model'=>$model,'role'=>$role,'days'=>$days,'company'=>$company]);
     }
     public function add_user(Requests\UserRequest $request){
 
