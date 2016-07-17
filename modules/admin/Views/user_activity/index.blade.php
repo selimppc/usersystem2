@@ -70,7 +70,7 @@
                                     <td>{{ $values->action_details }}</td>
                                     <td>{{ $values->action_table }}</td>
                                     <td>{{ $values->date }}</td>
-                                    <td>{{ $values->relUser->username }}</td>
+                                    <td>{{ $values->username }}</td>
 
                                 </tr>
                             @endforeach
