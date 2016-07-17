@@ -69,7 +69,9 @@
                                     @endif
                                     <td>
                                         <a href="{{ route('view-permission-role', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('delete-permission-role', $values->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to Delete?')" data-placement="top" data-content="delete"><i class="fa fa-trash-o"></i></a>
+                                        @if($values->role_id!=$first_role_id)
+                                            <a href="{{ route('delete-permission-role', $values->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to Delete?')" data-placement="top" data-content="delete"><i class="fa fa-trash-o"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -104,7 +106,7 @@
     </div> <!-- / .modal-dialog -->
 </div>
 <!-- modal -->
-
+@if(isset($exists_permission))
 <div id="Modal2" class="modal fade" tabindex="" role="dialog" style="display: none;">
 {{--<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--}}
     <div class="modal-dialog modal-lg">
@@ -121,7 +123,7 @@
         </div> <!-- / .modal-content -->
     </div> <!-- / .modal-dialog -->
 </div>
-
+@endif
 <!-- Modal  -->
 
 <div class="modal fade" id="etsbModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">

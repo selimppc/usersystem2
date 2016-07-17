@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="form-margin-btn" style="margin-left:79%">
+<div class="form-margin-btn pull-right">
     {!! Form::submit('Save changes', ['class' => 'btn btn-primary','data-placement'=>'top','data-content'=>'click save changes button for save information','id'=>'check-empty']) !!}
     <a href="{{route('index-permission-role')}}" class=" btn btn-default" data-placement="top" data-content="click close button for close this entry form">Close</a>
 </div>
