@@ -27,6 +27,11 @@
                 {{-------------- Filter :Starts -------------------------------------------}}
                 {!! Form::open(['method' =>'GET','url'=>'/search-permission-role']) !!}
                 <div id="index-search">
+                    @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
+                        <div class="col-sm-3">
+                            {!! Form::Select('company_id',$company, @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control', 'title'=>'select your require "company"']) !!}
+                        </div>
+                    @endif
                     <div class="col-sm-3">
                         {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
                     </div>
