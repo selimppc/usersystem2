@@ -45,6 +45,12 @@ class RoleController extends Controller
         return view('admin::role.index',['data'=>$data, 'pageTitle'=>$pageTitle,'role_type'=>$role_id,'protected'=>$protected]);
 
     }
+    public function create()
+    {
+        $pageTitle = "Add new Role";
+        $role_id=Session::get('role_id');
+        return view('admin::role.create',['pageTitle'=>$pageTitle,'role_type'=>$role_id]);
+    }
 
 
     /**
@@ -57,11 +63,11 @@ class RoleController extends Controller
     {
         $input = $request->all();
         $input['company_id']=Session::get('company_id');
-        $company_name= Company::findOrFail($input['company_id']);
-        $input['title']= $company_name->title.' | '.$input['title'];
-
+        if($input['company_id']!=null) {
+            $company_name = Company::findOrFail($input['company_id']);
+            $input['title'] = $company_name->title . ' | ' . $input['title'];
+        }
         $input['slug'] = str_slug(strtolower($input['title']));
-
         /* Transaction Start Here */
         DB::beginTransaction();
         try {
@@ -101,7 +107,8 @@ class RoleController extends Controller
     {
         $pageTitle = "Update Role Informations";
         $data = Role::where('slug',$slug)->first();
-        return view('admin::role.update', ['data' => $data,'pageTitle'=> $pageTitle]);
+        $role_id=Session::get('role_id');
+        return view('admin::role.update', ['data' => $data,'pageTitle'=> $pageTitle,'role_type'=>$role_id]);
     }
 
     /**

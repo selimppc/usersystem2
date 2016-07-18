@@ -225,6 +225,12 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
             'uses'       => 'RoleController@index',
     ]);
 
+    Route::any('add-role', [
+//            'middleware' => 'acl_access:add-role',
+            'as'         => 'add-role',
+            'uses'       => 'RoleController@create',
+    ]);
+
     Route::any('store-role', [
             'middleware' => 'acl_access:store-role',
             'as'         => 'store-role',

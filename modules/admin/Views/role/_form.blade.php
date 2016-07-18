@@ -1,4 +1,3 @@
-<script src="assets/bitd/js/jquery.min.js"></script>
 <div class="form-group form-group no-margin-hr panel-padding-h no-padding-t no-border-t">
     <div class="row">
         <div class="col-sm-12">
@@ -10,7 +9,6 @@
     <div class="row">
         <div class="col-sm-12">
             {!! Form::label('status', 'Status:', ['class' => 'control-label']) !!}
-            <small class="narration">(Active status Selected)</small>
         {!! Form::Select('status',array('active'=>'Active','inactive'=>'Inactive'),Input::old('status'),['class'=>'form-control ','required']) !!}
         </div>
     </div>
