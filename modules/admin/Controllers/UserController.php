@@ -416,9 +416,30 @@ class UserController extends Controller
 
         return view('admin::user.index',['pageTitle'=>$pageTitle,'model'=>$model,'role'=>$role,'days'=>$days,'company'=>$company]);
     }
+    public function add_new_user(){
+
+        $pageTitle = "Add User";
+        $role_id=Session::get('role_id');
+        if($role_id== 'sadmin' || $role_id=='admin') {
+            $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
+            $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
+        }else{
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
+
+            $company=  [];
+        }
+
+//        $department_data =  [''=>'Select Department'] + Department::lists('title','id')->all();
+        /*set 30days for expire-date to user*/
+        $i=30;
+        $add_days = +$i.' days';
+        $days= date('Y/m/d', strtotime($add_days, strtotime(date('Y/m/d H:i:s'))));
+        return view('admin::user.create', ['pageTitle'=> $pageTitle,'role'=>$role,'days'=>$days,'company'=>$company]);
+    }
     public function add_user(Requests\UserRequest $request){
 
         $input = $request->all();
+        $input['expire_date']=date('Y-m-d',strtotime($input['expire_date']));
         #print_r($input);exit;
         date_default_timezone_set("Asia/Dacca");
         $now = new DateTime();
@@ -457,7 +478,7 @@ class UserController extends Controller
             LogFileHelper::log_error('user-add', $e->getMessage(), ['Username: '.$input['username']]);
         }
 
-        return redirect()->back();
+        return redirect()->to('user-list');
     }
     /**
      * Display the specified resource.
@@ -547,7 +568,7 @@ class UserController extends Controller
         //role-user update if exists...
         #print_r($model1->role_id);exit;
 
-        return redirect()->back();
+        return redirect()->to('user-list');
     }
 
     /**

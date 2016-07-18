@@ -52,7 +52,7 @@
 
         <div class="menubar-foot-panel">
             <small class="no-linebreak hidden-folded">
-                <span class="opacity-75">Copyright &copy; 2014</span> <strong>CodeCovers</strong>
+                <span class="opacity-75">COPYRIGHT © <?php echo date('Y'); ?> </span> <strong>ETSB</strong>
             </small>
         </div>
     </div><!--end .menubar-scroll-panel-->

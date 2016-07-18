@@ -344,6 +344,7 @@
 <script src="{{ asset('assets/main/js/libs/nanoscroller/jquery.nanoscroller.min.js') }}"></script>
 <script src="{{ asset('assets/main/js/libs/d3/d3.min.js') }}"></script>
 <script src="{{ asset('assets/main/js/libs/rickshaw/rickshaw.min.js') }}"></script>
+<script src="{{ asset('assets/main/js/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/source/App.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/source/AppNavigation.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/source/AppOffcanvas.js') }}"></script>
@@ -351,7 +352,8 @@
 <script src="{{ asset('assets/main/js/core/source/AppForm.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/source/AppNavSearch.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/demo/Demo.js') }}"></script>
-<script src="{{ asset('assets/main/js/core/demo/DemoDashboard.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/demo/DemoFormComponents.js') }}"></script>
+{{--<script src="{{ asset('assets/main/js/core/demo/DemoDashboard.js') }}"></script>--}}
 <!-- END JAVASCRIPT -->
 
 </body>

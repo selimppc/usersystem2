@@ -27,8 +27,7 @@
             <div class="col-lg-offset-1 col-md-8 col-sm-8">
                 <div class="card">
                     <div class="card-body">
-                        {!! Form::model($data, ['method' => 'PATCH', 'route'=> ['update-user', $data->id],'id'=>'update']) !!}
-                        {{--{!! Form::open(['route' => 'add-user','class' => 'form']) !!}--}}
+                        {!! Form::open(['route' => 'add-user','class' => 'form']) !!}
                         @include('admin::user._form')
                         {!! Form::close() !!}
                     </div><!--end .card-body -->
