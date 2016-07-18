@@ -103,7 +103,7 @@
                 <h4 class="modal-title" id="myModalLabel">Permission assign to a role <span style="color: #A54A7B" class="user-guideline" data-content="<em>Must Fill <b>Required</b> Field.    <b>*</b> Put cursor on input field for more informations</em>"><font size="2"></font> </span></h4>
             </div>
             <div class="modal-body">
-                {!! Form::open(['route' => 'index-permission-role','id' => 'form_2']) !!}
+                {!! Form::open(['route' => 'add-permission-role','id' => 'form_2']) !!}
                 @include('admin::permission_role._form')
                 {!! Form::close() !!}
             </div> <!-- / .modal-body -->
@@ -111,26 +111,6 @@
     </div> <!-- / .modal-dialog -->
 </div>
 <!-- modal -->
-@if(isset($exists_permission))
-<div id="Modal2" class="modal fade" tabindex="" role="dialog" style="display: none;">
-{{--<div class="modal fade" id="Modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">--}}
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="click x button for close this entry form">×</button>
-                <h4 class="modal-title" id="myModalLabel">Assign Permission To : {{isset($role_name)?ucfirst($role_name):''}}<span style="color: #A54A7B" class="user-guideline" data-content="<em>Must Fill <b>Required</b> Field. <b>*</b> Put cursor on input field for more informations</em>"><font size="2"></font> </span></h4>
-            </div>
-            <div class="modal-body">
-                {!! Form::open(['route'=> ['store-permission-role']]) !!}
-                @include('admin::permission_role._duallistbox_form')
-                {!! Form::close() !!}
-            </div> <!-- / .modal-body -->
-        </div> <!-- / .modal-content -->
-    </div> <!-- / .modal-dialog -->
-</div>
-@endif
-<!-- Modal  -->
-
 <div class="modal fade" id="etsbModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

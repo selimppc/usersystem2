@@ -136,7 +136,7 @@
 
 <p> &nbsp; </p>
 
-<div class="form-margin-btn" style="margin-left: 74%">
+<div class="form-margin-btn">
     {!! Form::submit('Assign Permission', ['class' => 'btn btn-primary']) !!}
     <a href="{{route('index-permission-role')}}" class=" btn btn-default" data-placement="top" data-content="click close button for close this entry form">Close</a>
 

@@ -268,6 +268,86 @@ class PermissionRoleController extends Controller
         #$role_id =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'sadmin')->lists('title','id')->all();
         return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role,'company'=>$company,'first_role_id'=>$first_role_id]);
     }
+    public function create(Request $request)
+    {
+
+        $pageTitle = "Add Permission Role";
+
+        $role_id=Session::get('role_id');
+            $role_value = Input::get('role_id');
+            $role_name = Role::findOrFail($role_value)->title;
+            // whereExists()
+            $exists_permission = DB::table('permissions')
+                ->whereExists(function ($query) use($role_value){
+                    $query->select(DB::raw(1))
+                        ->from('permission_role')
+                        ->whereRaw('permission_role.permission_id = permissions.id')
+                        ->WhereRaw('permission_role.role_id = ?', [$role_value]);
+                })
+                ->lists('permissions.title', 'permissions.id');
+
+            #print_r($exists_permission);
+
+
+            //whereNotExists()
+            if($role_id=='sadmin'){
+                $not_exists_permission = DB::table('permissions')
+                    ->whereNotExists(function ($query) use($role_value){
+                        $query->select(DB::raw(1))
+                            ->from('permission_role')
+                            ->whereRaw('permission_role.permission_id = permissions.id')
+                            ->WhereRaw('permission_role.role_id = ?', [$role_value]);
+                    })
+                    ->where('weight','<=',4)
+                    ->lists('permissions.title', 'permissions.id');
+            }elseif($role_id=='admin'){
+                $not_exists_permission = DB::table('permissions')
+                    ->whereNotExists(function ($query) use($role_value){
+                        $query->select(DB::raw(1))
+                            ->from('permission_role')
+                            ->whereRaw('permission_role.permission_id = permissions.id')
+                            ->WhereRaw('permission_role.role_id = ?', [$role_value]);
+                    })
+                    ->where('weight','<=',3)
+                    ->lists('permissions.title', 'permissions.id');
+            }elseif($role_id=='cadmin'){
+                $user_role_id= Role::where('type','user')->where('company_id',Session::get('company_id'))->first();
+                $user_permitted_role= PermissionRole::select('permission_id')->where('role_id',$user_role_id->id)->get();
+                $permitted_id=[];
+                foreach ($user_permitted_role as $id => $value) {
+                    $permitted_id[]=$value->permission_id;
+                }
+
+                $not_exists_permission = DB::table('permissions')
+                    ->whereNotExists(function ($query) use($role_value){
+                        $query->select(DB::raw(1))
+                            ->from('permission_role')
+                            ->whereRaw('permission_role.permission_id = permissions.id')
+                            ->WhereRaw('permission_role.role_id = ?', [$role_value]);
+                    })
+                    ->whereIn('id',$permitted_id)
+                    ->lists('permissions.title', 'permissions.id');
+
+//                $permission_id= Permission::whereIn('id',$permitted_id)->lists('title','id')->all();
+//            dd($permission_id);
+//            $permission_id = Permission::where('weight','<=',2)->lists('title','id')->all();
+            }else{
+                $not_exists_permission = DB::table('permissions')
+                    ->whereNotExists(function ($query) use($role_value){
+                        $query->select(DB::raw(1))
+                            ->from('permission_role')
+                            ->whereRaw('permission_role.permission_id = permissions.id')
+                            ->WhereRaw('permission_role.role_id = ?', [$role_value]);
+                    })
+                    ->where('weight','<=',1)
+                    ->lists('permissions.title', 'permissions.id');
+            }
+        return view('admin::permission_role.create', ['pageTitle'=> $pageTitle, 'role_id'=>$role_id,'exists_permission' => $exists_permission,'not_exists_permission' => $not_exists_permission,'role_name'=>$role_name,'role_value'=>$role_value]);
+
+        //$data = PermissionRole::where('status', '!=', 'cancel')->orderBy('id', 'DESC')->paginate(30);
+        #$role_id = [''=>'Select Role'] + Role::lists('title','id')->all();
+//        return view('admin::permission_role.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'permission_id'=>$permission_id,'role_id'=>$role,'company'=>$company]);
+    }
 
     public function store(Requests\PermissionRoleRequest $request){
         DB::beginTransaction();
