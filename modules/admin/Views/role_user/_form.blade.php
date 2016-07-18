@@ -2,6 +2,7 @@
 <div class="form-group no-margin-hr panel-padding-h no-padding-t no-border-t">
 
     <div class="row">
+        @if(!isset($data))
         <div class="form-group">
             {!! Form::label('user_id', 'User :', ['class' => 'control-label']) !!}
             <small class="required">(Required)</small>
@@ -11,6 +12,9 @@
                 {!! Form::text('user_id', 'No User available',['id'=>'user_id','class' => 'form-control','required','disabled']) !!}
             @endif
         </div>
+        @else
+            <input type="hidden" name="user_id" value="{{ $data->user_id }}">
+        @endif
         <div class="form-group">
             {!! Form::label('role_id', 'Role :', ['class' => 'control-label']) !!}
             <small class="required">(Required)</small>

@@ -57,7 +57,7 @@
                                     <td>{{isset($values->title)?ucfirst($values->title):ucfirst($values->relRole->title)}}</td>
                                     <td>
                                         <a href="{{ route('view-role-user', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>
-                                        <a href="{{ route('edit-role-user', $values->id) }}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="update"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('edit-role-user', $values->id) }}" class="btn btn-primary btn-xs" data-content="update"><i class="fa fa-edit"></i></a>
                                         {{--<a href="{{ route('delete-role-user', $values->id) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to Delete?')" data-placement="top" data-content="delete"><i class="fa fa-trash-o"></i></a>--}}
                                     </td>
                                 </tr>
@@ -72,24 +72,6 @@
         </div>
     </div>
 </div>
-<!-- page end-->
-
-<div id="addData" class="modal fade" tabindex="" role="dialog" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" title="click x button for close this entry form">×</button>
-                <h4 class="modal-title" id="myModalLabel">Add Role User Informations <span style="color: #A54A7B" class="user-guideline" data-content="<em>Must Fill <b>Required</b> Field.    <b>*</b> Put cursor on input field for more informations</em>"><font size="2"></font> </span></h4>
-            </div>
-            <div class="modal-body">
-                {!! Form::open(['route' => 'store-role-user','id' => 'form_2']) !!}
-                @include('admin::role_user._form')
-                {!! Form::close() !!}
-            </div> <!-- / .modal-body -->
-        </div> <!-- / .modal-content -->
-    </div> <!-- / .modal-dialog -->
-</div>
-<!-- modal -->
 
 
 <!-- Modal  -->
