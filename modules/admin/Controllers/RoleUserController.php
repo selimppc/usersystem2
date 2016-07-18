@@ -51,13 +51,13 @@ class RoleUserController extends Controller
             $data = DB::table('role_user')
                 ->join('user', 'user.id', '=', 'role_user.user_id')
                 ->join('role', 'role.id', '=', 'role_user.role_id')
-                ->where('role.type', '!=', 'cadmin')
+//                ->where('role.type', '!=', 'cadmin')
                 ->where('user.company_id', Session::get('company_id'))
                 ->select('role_user.id', 'user.username', 'user.email', 'role.title')
                 ->paginate(30);
             $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
 
-            $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
         }
         /*$data = new RoleUser();
         $data = $data->join('role','role.id','=','role_id');
@@ -127,14 +127,14 @@ class RoleUserController extends Controller
         }else{
             $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
 
-            $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
         }
         return view('admin::role_user.index', ['data' => $data, 'pageTitle'=> $pageTitle, 'user_id'=>$user_id,'role_id'=>$role]);
     }
 
     public function store(Requests\RoleUserRequest $request){
         $input = $request->all();
-        $role_user_exists = RoleUser::where('user_id',$input['user_id'])->where('role_id',$input['role_id'])->exists();
+        $role_user_exists = RoleUser::where('user_id',$input['user_id'])->exists();
         if(!$role_user_exists){
             /* Transaction Start Here */
             DB::beginTransaction();
@@ -188,7 +188,7 @@ class RoleUserController extends Controller
         }else{
             $user_id = [''=>'Select User'] + User::where('id','!=',Session::get('user_id'))->where('user.company_id', Session::get('company_id'))->lists('username','id')->all();
 
-            $role =  [''=>'Select Role'] +  Role::where('role.type', '!=', 'cadmin')->where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('role.company_id', Session::get('company_id'))->lists('title','id')->all();
         }
 
 //        $user_id = User::lists('username','id');
@@ -212,6 +212,9 @@ class RoleUserController extends Controller
             DB::beginTransaction();
             try {
                 $model->update($input);
+                $user= User::where('id',$input['user_id'])->first();
+                $user->role_id=$input['role_id'];
+                $user->save();
                 DB::commit();
                 Session::flash('message', "Successfully Updated");
                 LogFileHelper::log_info('update-role-user', 'Successfully Updated', ['Role-user id: '.$model->id]);

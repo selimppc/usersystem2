@@ -348,7 +348,7 @@ class UserController extends Controller
             $company=  [''=>'Select Company'] +  Company::lists('title','id')->all();
         }else{
             $model = User::where('status', '!=', 'cancel')->where('id', '!=', Session::get('user_id'))->where('company_id', Session::get('company_id'))->orderBy('id', 'DESC')->paginate(30);
-            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
 
             $company=  [];
         }
@@ -408,7 +408,7 @@ class UserController extends Controller
         if($role_id== 'sadmin' || $role_id=='admin') {
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{
-            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
 
         }
         #$role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
@@ -489,7 +489,7 @@ class UserController extends Controller
         if($role_id== 'sadmin' || $role_id=='admin') {
             $role =  [''=>'Select Role'] +  Role::lists('title','id')->all();
         }else{
-            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->where('type','!=', 'cadmin')->lists('title','id')->all();
+            $role =  [''=>'Select Role'] +  Role::where('company_id', Session::get('company_id'))->lists('title','id')->all();
         }
 
 
@@ -525,7 +525,7 @@ class UserController extends Controller
                 'csrf_token'=> str_random(30),
                 'ip_address'=> getHostByName(getHostName()),
                 'last_visit'=> $now,
-                'role_id'=> $input['role_id'],
+//                'role_id'=> $input['role_id'],
                 'expire_date'=> $input['expire_date'],
                 'status'=> $input['status'],
             ];
