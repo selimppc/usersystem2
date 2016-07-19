@@ -29,17 +29,17 @@
                 <div id="index-search">
                     @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
                         <div class="col-sm-3">
-                            {!! Form::Select('company_id',$company, @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control', 'title'=>'select your require "company"']) !!}
+                            {!! Form::Select('company_id',$company, @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control input-sm', 'title'=>'select your require "company"']) !!}
                         </div>
                     @endif
                     <div class="col-sm-3">
-                        {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
+                        {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control input-sm', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
                     </div>
                     <div class="col-sm-3">
-                        {!! Form::text('permission_name',@Input::get('permission_name')? Input::get('permission_name') : null,['class' => 'form-control','placeholder'=>'Type permission name', 'title'=>'Type your require "permission name", then click "search" button']) !!}
+                        {!! Form::text('permission_name',@Input::get('permission_name')? Input::get('permission_name') : null,['class' => 'form-control input-sm','placeholder'=>'Type permission name', 'title'=>'Type your require "permission name", then click "search" button']) !!}
                     </div>
                     <div class="col-sm-2 filter-btn">
-                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'Type role name and permission name in specific field then click search button for required information')) !!}
+                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-sm pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'Type role name and permission name in specific field then click search button for required information')) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}

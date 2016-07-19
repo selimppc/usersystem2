@@ -22,10 +22,10 @@
                 {!! Form::open(['method' =>'GET','url'=>'/index-permission']) !!}
                 <div id="index-search">
                     <div class="col-sm-3">
-                        {!! Form::text('title',@Input::get('title')? Input::get('title') : null,['class' => 'form-control','placeholder'=>'type title', 'title'=>'type your require permission "title", example :: Main, then click "search" button']) !!}
+                        {!! Form::text('title',@Input::get('title')? Input::get('title') : null,['class' => 'form-control input-sm','placeholder'=>'type title', 'title'=>'type your require permission "title", example :: Main, then click "search" button']) !!}
                     </div>
                     <div class="col-sm-2 filter-btn">
-                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type title then click search button for required information','style'=>"height:28px")) !!}
+                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-sm pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type title then click search button for required information','style'=>"height:28px")) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}

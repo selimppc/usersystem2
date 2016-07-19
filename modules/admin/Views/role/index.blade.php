@@ -25,10 +25,10 @@
 
                 <div id="index-search">
                     <div class="col-sm-3">
-                        {!! Form::text('title',@Input::get('title')? Input::get('title') : null,['class' => 'form-control','placeholder'=>'Type title', 'title'=>'Type your required Role title "title", then click "search" button']) !!}
+                        {!! Form::text('title',@Input::get('title')? Input::get('title') : null,['class' => 'form-control input-sm','placeholder'=>'Type title', 'title'=>'Type your required Role title "title", then click "search" button']) !!}
                     </div>
                     <div class="col-sm-3 filter-btn">
-                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left pop btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type title in specific field then click search button for required information')) !!}
+                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-sm pull-left pop btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type title in specific field then click search button for required information')) !!}
                     </div>
                 </div>
                 <p> &nbsp;</p>

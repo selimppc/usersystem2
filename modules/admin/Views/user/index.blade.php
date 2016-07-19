@@ -21,7 +21,7 @@
                 {!! Form::open(['method' =>'GET','url'=>'/search-user']) !!}
                 <div class="col-sm-12">
                     <div class="col-sm-2">
-                        {!! Form::text('username', @Input::get('username')? Input::get('username') : null, ['class' => 'form-control','placeholder'=>'select username','title'=>'type your require "username" then click "search" button']) !!}
+                        {!! Form::text('username', @Input::get('username')? Input::get('username') : null, ['class' => 'form-control input-sm','placeholder'=>'select username','title'=>'type your require "username" then click "search" button']) !!}
 
                     </div>
                    {{-- <div class="col-sm-3">
@@ -29,15 +29,15 @@
                     </div>--}}
 
                     <div class="col-sm-2">
-                        {!! Form::Select('status',array(''=>'Status','inactive'=>'Inactive','active'=>'Active','cancel'=>'Cancel'),@Input::get('status')? Input::get('status') : null,['class'=>'form-control', 'title'=>'select your require "status", example :: open, then click "search" button']) !!}
+                        {!! Form::Select('status',array(''=>'Status','inactive'=>'Inactive','active'=>'Active','cancel'=>'Cancel'),@Input::get('status')? Input::get('status') : null,['class'=>'form-control input-sm', 'title'=>'select your require "status", example :: open, then click "search" button']) !!}
                     </div>
                     @if(Session::get('role_id')!='cadmin' && Session::get('role_id')!='user' )
                         <div class="col-sm-3">
-                            {!! Form::Select('company_id',$company, @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control', 'title'=>'select your require "company"']) !!}
+                            {!! Form::Select('company_id',$company, @Input::get('company_id')? Input::get('company_id') : null,['class' => 'form-control input-sm', 'title'=>'select your require "company"']) !!}
                         </div>
                     @endif
                     <div class="col-sm-2 filter-btn">
-                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type user name or select department or both in specific field then click search button for required information')) !!}
+                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-sm pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type user name or select department or both in specific field then click search button for required information')) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}

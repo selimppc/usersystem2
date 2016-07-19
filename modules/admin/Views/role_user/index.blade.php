@@ -24,13 +24,13 @@
                 <div id="index-search">
 
                     <div class="col-sm-3">
-                        {!! Form::text('username',@Input::get('username')? Input::get('username') : null,['class' => 'form-control','placeholder'=>'Type user name', 'title'=>'Type your require user name, then click "search" button']) !!}
+                        {!! Form::text('username',@Input::get('username')? Input::get('username') : null,['class' => 'form-control input-sm','placeholder'=>'Type user name', 'title'=>'Type your require user name, then click "search" button']) !!}
                     </div>
                     <div class="col-sm-3">
-                        {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
+                        {!! Form::Select('role_id',($role_id), @Input::get('role_id')? Input::get('role_id') : null,['class' => 'form-control input-sm', 'title'=>'select your require "role", example :: admin, then click "search" button']) !!}
                     </div>
                     <div class="col-sm-2 filter-btn">
-                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type username or select role or both in specific field then click search button for required information')) !!}
+                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-sm pull-left btn-search-height','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type username or select role or both in specific field then click search button for required information')) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}
