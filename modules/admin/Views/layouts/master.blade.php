@@ -48,7 +48,6 @@
     <!-- BEGIN CONTENT-->
     <div id="content">
         <section>
-            <br>
             <message>
                 @if($errors->any())
                     <ul class="alert alert-danger">
@@ -352,6 +351,7 @@
 <script src="{{ asset('assets/main/js/core/source/AppForm.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/source/AppNavSearch.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/demo/Demo.js') }}"></script>
+<script src="{{ asset('assets/main/js/custom.js') }}"></script>
 <script src="{{ asset('assets/main/js/core/demo/DemoFormComponents.js') }}"></script>
 {{--<script src="{{ asset('assets/main/js/core/demo/DemoDashboard.js') }}"></script>--}}
 <!-- END JAVASCRIPT -->

@@ -25,11 +25,17 @@
             {!! Form::text('telephone_number', Input::old('telephone_number'), ['class' => 'form-control','required'=>'required','title'=>'Enter Telephone Number']) !!}
         </div>
         <div class="col-sm-6">
+            {{--<div class="input-group date" id="demo-date">
+                    {!! Form::text('expire_date', Input::old('expire_date'), ['class' => 'form-control bs-datepicker-component','required','title'=>'select expire date']) !!}
+
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>--}}
+
+
             {!! Form::label('date_of_birth', 'Date Of Birth:', ['class' => 'control-label']) !!}
             <small class="required">(Required)</small>
             <div class="">
-                {!! Form::text('date_of_birth', Input::old('date_of_birth'), ['class' => 'form-control datapicker2','required','title'=>'select birth date']) !!}
-                {{--<span class="input-group-addon"></span>--}}
+                {!! Form::text('date_of_birth', Input::old('date_of_birth'), ['class' => 'form-control datapicker','required','title'=>'select birth date']) !!}
             </div>
         </div>
     </div>

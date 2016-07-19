@@ -310,6 +310,11 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
             'as'         => 'user-profile',
             'uses'       => 'UserController@create_user_info',
     ]);
+    Route::any('add-profile', [
+//            'middleware' => 'acl_access:add-profile',
+            'as'         => 'add-profile',
+            'uses'       => 'UserController@create_profile',
+    ]);
 
     Route::any('user-info/{value}', [
             'middleware' => 'acl_access:user-info/{value}',

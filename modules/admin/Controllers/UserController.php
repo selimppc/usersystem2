@@ -526,45 +526,50 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update_user(Requests\UserRequest $request, $id)
+    public function update_user(Request $request, $id)
     {
         $input = Input::all();
-        $model1 = User::findOrFail($id);
-
-            if($input['password2']!=Null){
-                $password = Hash::make($input['password2']);
-            }else{
-                $password =  $input['password'];
+        $email_check= User::where('email',$input['email'])->first();
+        if($email_check->id==$id) {
+            $input['expire_date'] = date('Y-m-d', strtotime($input['expire_date']));
+            $model1 = User::findOrFail($id);
+            if ($input['re_password'] != Null) {
+                $password = Hash::make($input['re_password']);
+            } else {
+                $password = $input['password'];
             }
 
             $now = new DateTime();
 
             $input_data = [
-                'username'=>$input['username'],
-                'email'=>$input['email'],
-                'password'=>$password,
-                'csrf_token'=> str_random(30),
-                'ip_address'=> getHostByName(getHostName()),
-                'last_visit'=> $now,
+                'username' => $input['username'],
+                'email' => $input['email'],
+                'password' => $password,
+                'csrf_token' => str_random(30),
+                'ip_address' => getHostByName(getHostName()),
+                'last_visit' => $now,
 //                'role_id'=> $input['role_id'],
-                'expire_date'=> $input['expire_date'],
-                'status'=> $input['status'],
+                'expire_date' => $input['expire_date'],
+                'status' => $input['status'],
             ];
-                DB::beginTransaction();
-                try{
-                    $model1->update($input_data);
+            DB::beginTransaction();
+            try {
+                $model1->update($input_data);
 
-                    DB::commit();
-                    Session::flash('message', "Successfully Updated");
-                    #LogFileHelper::log_info('update-user', 'Successfully Updated!', ['Username:'.$input['username']]);
+                DB::commit();
+                Session::flash('message', "Successfully Updated");
+                #LogFileHelper::log_info('update-user', 'Successfully Updated!', ['Username:'.$input['username']]);
 
-                }catch ( Exception $e ){
-                    //If there are any exceptions, rollback the transaction
-                    DB::rollback();
-                    Session::flash('error', $e->getMessage());
-                    #LogFileHelper::log_error('update-user', 'error!'.$e->getMessage(), ['Username:'.$input['username']]);
-                }
-
+            } catch (Exception $e) {
+                //If there are any exceptions, rollback the transaction
+                DB::rollback();
+                Session::flash('error', $e->getMessage());
+                #LogFileHelper::log_error('update-user', 'error!'.$e->getMessage(), ['Username:'.$input['username']]);
+            }
+        }else{
+            Session::flash('error', 'Email already exist');
+            return redirect()->back();
+        }
         //role-user update if exists...
         #print_r($model1->role_id);exit;
 
@@ -608,11 +613,12 @@ class UserController extends Controller
         {
             $pageTitle = 'User Profile';
             $user_id = Auth::user()->id;
+            $data = UserProfile::with('relUser')->where('user_id',$user_id)->first();
             $profile_data = UserProfile::where('user_id',$user_id)->first();
             $user_image = UserImage::where('user_id',$user_id)->first();
             $user = User::where('id',$user_id)->first();
 
-            return view('admin::user_info.index',['user_id'=>$user_id,'profile_data'=>$profile_data,'user_image'=>$user_image,'user'=>$user,'pageTitle'=>$pageTitle]);
+            return view('admin::user_info.index',['data'=>$data,'user_id'=>$user_id,'profile_data'=>$profile_data,'user_image'=>$user_image,'user'=>$user,'pageTitle'=>$pageTitle]);
         }
     }
     public function user_info($value){
@@ -649,10 +655,23 @@ class UserController extends Controller
         return view('admin::user_info.inactive_user_dashboard');
     }
 
+    public function create_profile()
+    {
+        $pageTitle = 'Add Profile';
+        $user_id = Auth::user()->id;
+        $profile_data = UserProfile::where('user_id',$user_id)->first();
+        $user_image = UserImage::where('user_id',$user_id)->first();
+        $user = User::where('id',$user_id)->first();
+
+        return view('admin::user_info.profile.create',['user_id'=>$user_id,'profile_data'=>$profile_data,'user_image'=>$user_image,'user'=>$user,'pageTitle'=>$pageTitle]);
+
+    }
+
 
     public function store_user_profile(Requests\UserProfileRequest $request){
 
         $input = $request->all();
+        $input['date_of_birth']=date('Y-m-d',strtotime($input['date_of_birth']));
 
         $image_model = new UserImage();
         $profile_model = new UserProfile();
@@ -723,7 +742,7 @@ class UserController extends Controller
                 #LogFileHelper::log_error('store-user-profile', $e->getMessage(), ['User profile image:'.$input['image']] );
             }
         }
-        return redirect()->back();
+        return redirect()->to('user-profile');
     }
 
     public function edit_user_profile($id){
@@ -742,6 +761,7 @@ class UserController extends Controller
     public function update_user_profile(Requests\UserProfileRequest $request,$id){
 
         $input = $request->all();
+        $input['date_of_birth']=date('Y-m-d',strtotime($input['date_of_birth']));
         $user_id = Auth::user()->id;
 
         $profile_model = UserProfile::findOrFail($id);

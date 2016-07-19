@@ -27,7 +27,7 @@
             <div class="col-lg-offset-1 col-md-8 col-sm-8">
                 <div class="card">
                     <div class="card-body">
-                        {!! Form::model($data, ['method' => 'PATCH', 'route'=> ['update-user-profile', $data->id],'files'=>'true','id'=>'user-profile']) !!}
+                        {!! Form::open(['route' => 'store-user-profile','id' => 'form_2','files'=>'true']) !!}
                         @include('admin::user_info.profile._form')
                         {!! Form::close() !!}
                     </div><!--end .card-body -->

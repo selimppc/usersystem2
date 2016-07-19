@@ -78,7 +78,7 @@
             <div class="col-sm-6 form-group">
                 {!! Form::label('username', 'User Name:', ['class' => 'control-label']) !!}
                 <small class="required">(Required)</small>
-                {!! Form::text('username',Input::old('username'),['id'=>'name','class' => 'form-control','placeholder'=>'User Name','required','autofocus', 'title'=>'Enter User Name']) !!}
+                {!! Form::text('username',Input::old('username'),['id'=>'name','class' => 'form-control','placeholder'=>'User Name','required','autofocus', 'title'=>'Enter User Name','readonly']) !!}
             </div>
             <div class="col-sm-6">
                 {!! Form::label('email', 'Email Address:', ['class' => 'control-label']) !!}
