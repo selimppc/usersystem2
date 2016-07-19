@@ -21,10 +21,10 @@
     <div class="row">
         <div class="col-sm-12">
             {!! Form::label('weight', 'Weight:', ['class' => 'control-label']) !!}
-            {!! Form::radio('weight','1',null,['required'=>'required']) !!} User
-            {!! Form::radio('weight','2',null,['required'=>'required']) !!} Company Admin
-            {!! Form::radio('weight','3',null,['required'=>'required']) !!} Admin
-            {!! Form::radio('weight','4',null,['required'=>'required']) !!} Super Admin
+            <label>{!! Form::radio('weight','1',null,['required'=>'required']) !!} User</label>
+            <label>{!! Form::radio('weight','2',null,['required'=>'required']) !!} Company Admin</label>
+            <label>{!! Form::radio('weight','3',null,['required'=>'required']) !!} Admin</label>
+            <label>{!! Form::radio('weight','4',null,['required'=>'required']) !!} Super Admin</label>
         </div>
     </div>
 </div>

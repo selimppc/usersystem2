@@ -172,8 +172,7 @@ class PermissionController extends Controller
                 $new_routes[]=$route;
             }
         }
-        if($duplicate==0)
-        {
+        if($duplicate==0){
             Session::flash('message', "All route already exists. No new route found");
             return redirect()->route('index-permission');
         }else{

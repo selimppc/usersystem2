@@ -55,7 +55,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a href="{{ route('edit-permission', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="Edit"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ route('edit-permission', $values->id) }}" class="btn btn-info btn-xs" data-content="Edit"><i class="fa fa-edit"></i></a>
                                         <a href="{{ route('view-permission', $values->id) }}" class="btn btn-info btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="view"><i class="fa fa-eye"></i></a>
                                         {{--<a href="{{ route('edit-permission', $values->route_url) }}" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#etsbModal" data-placement="top" data-content="update"><i class="fa fa-edit"></i></a>
                                         <a href="{{ route('delete-permission', $values->route_url) }}" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure to Delete?')" data-placement="top" data-content="delete"><i class="fa fa-trash-o"></i></a>--}}
