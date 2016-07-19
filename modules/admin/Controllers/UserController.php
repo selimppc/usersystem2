@@ -46,7 +46,8 @@ class UserController extends Controller
     }
     public function create_sign_up()
     {
-        return view('admin::signup._form');
+        $data['pageTitle']='Sign Up';
+        return view('admin::signup._form',$data);
     }
     public function store_signup_info(Requests\UserRequest $request)
     {
@@ -183,7 +184,8 @@ class UserController extends Controller
     public function forget_password_view()
     {
         //exit('exit');
-        return view('admin::forget_password._form');
+        $data['pageTitle'] = 'Forget Password';
+        return view('admin::forget_password._form',$data);
     }
     public function forget_password()
     {

@@ -1,49 +1,47 @@
 @extends('admin::layouts.login')
-
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="text-center m-b-sm">
-                <div id="logo-login" class="light-version">
-                    <!--<img src="<?php //echo e(URL::to('/')); ?>/assets/img/logo-dark.png" alt="SOP" class="bgm_logo_img">-->
-                    <h3>Online Platform</h3>
-                </div>
-                <br clear="all" />
-            </div>
-            <div class="hpanel">
-                <div class="panel-body">
-                    <br>
-                    {!! Form::open(['route' => 'post-user-login','id'=>'form_2']) !!}
-                        <div class="form-group">
-                            <label class="control-label" for="username">Username Or Email Address</label>
-                            {!! Form::text('email', Input::old('email'), ['class' => 'form-control','required','placeholder'=>'Username or email','autofocus','title'=>'Enter Email Address/Username']) !!}
-                            <span class="help-block small">Your unique username/email to app</span>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="password">Password</label>
-                            {!! Form::password('password', ['class'=>'form-control', 'placeholder'=>'Password', 'required'=>'required','title'=>'Enter Password']) !!}
-                            <span class="help-block small">Your strong password</span>
-                        </div>
-                        <div class="checkbox">
-                            <input type="checkbox" class="i-checks" checked>
-                            Remember login
-                            <p>
-                                <a href="{{ route('forget-password-view') }}" class="pull-right" style="text-decoration: underline">Forgot your password?</a>
-                            </p>
-                            <p class="help-block small">(if this is a private computer)</p>
 
-                        </div>
-
-                        <button class="btn btn-success btn-block">Login</button>
-
-                        <p>
-                            <a href="{{ route('sign-up') }}" class="pull-right" style="text-decoration: underline; color: darkred"><b>Sign Up</b></a>
-                        </p>
-
+    <div class="card contain-sm style-transparent">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <br/>
+                    <span class="text-lg text-bold text-primary">Login Panel</span>
+                    <br/><br/>
+                    {!! Form::open(['route' => 'post-user-login','class'=>'form floating-label']) !!}
+                    <div class="form-group">
+                        {!! Form::text('email', Input::old('email'), ['class' => 'form-control','required','autofocus']) !!}
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="form-group">
+                        {!! Form::password('password', ['class'=>'form-control', 'required'=>'required']) !!}
+                        <label for="password">Password</label>
+                        <p class="help-block"><a href="{{ route('forget-password-view') }}">Forgotten?</a></p>
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <div class="col-xs-6 text-left">
+                            <div class="checkbox checkbox-inline checkbox-styled">
+                                <label>
+                                    <input type="checkbox"> <span>Remember me</span>
+                                </label>
+                            </div>
+                        </div><!--end .col -->
+                        <div class="col-xs-6 text-right">
+                            <button class="btn btn-primary btn-raised" type="submit">Login</button>
+                        </div><!--end .col -->
+                    </div><!--end .row -->
                     {!! Form::close() !!}
-                </div>
-            </div>
-        </div>
+                </div><!--end .col -->
+                <div class="col-sm-5 col-sm-offset-1 text-center">
+                    <br><br>
+                    <h3 class="text-light">
+                        No account yet?
+                    </h3>
+                    <a class="btn btn-block btn-raised btn-primary" href="{{ route('sign-up') }}">Sign up here</a>
+                    <br><br>
+                </div><!--end .col -->
+            </div><!--end .row -->
+        </div><!--end .card-body -->
     </div>
 @stop
-

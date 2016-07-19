@@ -1,40 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <title>{{ $pageTitle }}</title>
 
+    <!-- BEGIN META -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="your,keywords">
+    <meta name="description" content="Short explanation about this website">
+    <!-- END META -->
 
-    <!-- Page title -->
-    <title> {{isset($pageTitle)?$pageTitle:'User System'}} </title>
+    <!-- BEGIN STYLESHEETS -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:300italic,400italic,300,400,500,700,900' rel='stylesheet' type='text/css'/>
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/main/css/theme-default/bootstrap.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/main/css/theme-default/materialadmin.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/main/css/theme-default/font-awesome.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset('assets/main/css/theme-default/material-design-iconic-font.min.css') }}" />
+    <!-- END STYLESHEETS -->
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <!--<link rel="shortcut icon" type="image/ico" href="favicon.ico" />-->
-
-    <!-- Vendor styles -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="assets/bitd/css/font-awesome.css" />
-    <link rel="stylesheet" href="assets/bitd/css/metisMenu.css" />
-    <link rel="stylesheet" href="assets/bitd/css/animate.css" />
-    <link rel="stylesheet" href="assets/bitd/css/bootstrap.css" />
-    <link rel="stylesheet" href="assets/bitd/css/pe-icon-7-stroke.css" />
-    <link rel="stylesheet" href="assets/bitd/css/helper.css" />
-    <link rel="stylesheet" href="assets/bitd/css/style.css">
-
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../../assets/js/libs/utils/html5shiv.js?1403934957"></script>
+    <script type="text/javascript" src="../../assets/js/libs/utils/respond.min.js?1403934956"></script>
+    <![endif]-->
 </head>
-<body class="blank">
+<body class="menubar-hoverable header-fixed ">
 
-<!-- Simple splash screen-->
-<!--[if lt IE 7]>
-<p class="alert alert-danger">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
+<!-- BEGIN LOGIN SECTION -->
+<section class="section-account">
+    <div class="img-backdrop" style="background-image: url({{ asset('assets/main/img/img16.jpg') }})"></div>
+    <div class="spacer"></div>
 
-<div class="color-line"></div>
-
-
-
-<div class="login-container">
     @if($errors->any())
         <ul class="alert alert-danger">
             @foreach($errors->all() as $error)
@@ -55,219 +51,27 @@
 
     @elseif(Session::has('danger'))
         <div class="alert alert-danger">{{Session::get("danger")}}</div>
-    @endif
+        @endif
 
-    @yield('content')
+        @yield('content')<!--end .card -->
+</section>
+<!-- END LOGIN SECTION -->
 
-    <div class="row">
-        {{--<div class="col-md-12 text-center">
-            <strong>HOMER</strong> - AngularJS Responsive WebApp <br/> 2015 Copyright Company Name
-        </div>--}}
-    </div>
-</div>
+<!-- BEGIN JAVASCRIPT -->
+<script src="{{ asset("assets/main/js/libs/jquery/jquery-1.11.2.min.js") }}"></script>
+<script src="{{ asset("assets/main/js/libs/jquery/jquery-migrate-1.2.1.min.js") }}"></script>
+<script src="{{ asset('assets/main/js/libs/bootstrap/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/main/js/libs/spin.js/spin.min.js') }}"></script>
+<script src="{{ asset('assets/main/js/libs/autosize/jquery.autosize.min.js') }}"></script>
+<script src="{{ asset('assets/main/js/libs/nanoscroller/jquery.nanoscroller.min.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/source/App.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/source/AppNavigation.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/source/AppOffcanvas.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/source/AppCard.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/source/AppForm.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/source/AppNavSearch.js') }}"></script>
+<script src="{{ asset('assets/main/js/core/demo/Demo.js') }}"></script>
+<!-- END JAVASCRIPT -->
 
-
-<!-- Vendor scripts -->
-<script src="assets/bitd/js/jquery.min.js"></script>
-<script src="assets/bitd/js/jquery-ui.min.js"></script>
-<script src="assets/bitd/js/jquery.slimscroll.min.js"></script>
-<script src="assets/bitd/js/bootstrap.min.js"></script>
-{{--<script src="assets/bitd/js/jquery.flot.js"></script>--}}
-{{--<script src="assets/bitd/js/jquery.flot.resize.js"></script>--}}
-<script src="assets/bitd/js/jquery.flot.pie.js"></script>
-<script src="assets/bitd/js/curvedLines.js"></script>
-<script src="assets/bitd/js/spline.index.js"></script>
-<script src="assets/bitd/js/metisMenu.min.js"></script>
-<script src="assets/bitd/js/icheck.min.js"></script>
-<script src="assets/bitd/js/jquery.peity.min.js"></script>
-<script src="assets/bitd/js/index.js"></script>
-<script src="assets/bitd/js/validation.js"></script>
-<!-- App scripts -->
-<script src="assets/bitd/js/homer.js"></script>
-<script src="assets/bitd/js/charts.js"></script>
-<script>
-
-    //document.onload = function() {
-    $(function () {
-        $("#form_2").validate({
-            rules: {
-                name: {
-                    required: true,
-                },
-                password: {
-                    required: true,
-                },
-                url: {
-                    required: true,
-                    url: true
-                },
-                number: {
-                    required: true,
-                    number: true
-                },
-                max: {
-                    required: true,
-                    maxlength: 4
-                }
-            },
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-
-        $("#form_2").validate({
-            rules: {
-                name: {
-                    required: true,
-                },
-                username: {
-                    required: true,
-                },
-                url: {
-                    required: true,
-                    url: true
-                },
-                number: {
-                    required: true,
-                    number: true
-                },
-                last_name: {
-                    required: true,
-                    minlength: 6
-                }
-            },
-            messages: {
-                number: {
-                    required: "(Please enter your phone number)",
-                    number: "(Please enter valid phone number)"
-                },
-                last_name: {
-                    required: "This is custom message for required",
-                    minlength: "This is custom message for min length"
-                }
-            },
-            submitHandler: function (form) {
-                form.submit();
-            },
-            errorPlacement: function (error, element) {
-                $(element)
-                        .closest("form")
-                        .find("label[for='" + element.attr("id") + "']")
-                        .append(error);
-            },
-            errorElement: "span",
-        });
-    });
-
-
-
-    //change passowrd..
-
-    $(function () {
-        $("#validate").validate({
-            rules: {
-                name: {
-                    required: true,
-                },
-                password: {
-                    required: true,
-                },
-                url: {
-                    required: true,
-                    url: true
-                },
-                number: {
-                    required: true,
-                    number: true
-                },
-                max: {
-                    required: true,
-                    maxlength: 4
-                }
-            },
-            submitHandler: function (form) {
-                form.submit();
-            }
-        });
-
-        $("#validate").validate({
-            rules: {
-                name: {
-                    required: true,
-                },
-                username: {
-                    required: true,
-                },
-                url: {
-                    required: true,
-                    url: true
-                },
-                number: {
-                    required: true,
-                    number: true
-                },
-                last_name: {
-                    required: true,
-                    minlength: 6
-                }
-            },
-            messages: {
-                number: {
-                    required: "(Please enter your phone number)",
-                    number: "(Please enter valid phone number)"
-                },
-                last_name: {
-                    required: "This is custom message for required",
-                    minlength: "This is custom message for min length"
-                }
-            },
-            submitHandler: function (form) {
-                form.submit();
-            },
-            errorPlacement: function (error, element) {
-                $(element)
-                        .closest("form")
-                        .find("label[for='" + element.attr("id") + "']")
-                        .append(error);
-            },
-            errorElement: "span",
-        });
-    });
-    //}
-</script>
-
-<script>
-    $(".btn").popover({ trigger: "manual" , html: true, animation:false})
-            .on("mouseenter", function () {
-                var _this = this;
-                $(this).popover("show");
-                $(".popover").on("mouseleave", function () {
-                    $(_this).popover('hide');
-                });
-            }).on("mouseleave", function () {
-                var _this = this;
-                setTimeout(function () {
-                    if (!$(".popover:hover").length) {
-                        $(_this).popover("hide");
-                    }
-                }, 300);
-            });
-
-
-    $(".form-control").tooltip();
-    $('input:disabled, button:disabled').after(function (e) {
-        d = $("<div>");
-        i = $(this);
-        d.css({
-            height: i.outerHeight(),
-            width: i.outerWidth(),
-            position: "absolute",
-        })
-        d.css(i.offset());
-        d.attr("title", i.attr("title"));
-        d.tooltip();
-        return d;
-    });
-</script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-offset-4 col-md-4">
             <div class="text-center m-b-md">
                 <h3>FORGOT PASSWORD</h3>
             </div>
@@ -14,7 +14,8 @@
                         {!! Form::email('email', null, ['class' => 'form-control','required','placeholder'=>'E-mail','title'=>'Enter Email Address']) !!}
                     </div>
                     <br>
-                    <button class="btn btn-success btn-block">Reset Password</button>
+                    <a class="btn btn-success" href="{{ route('get-user-login') }}">Back to login page</a>
+                    <button class="btn btn-info">Reset Password</button>
 
                     {!! Form::close() !!}
 

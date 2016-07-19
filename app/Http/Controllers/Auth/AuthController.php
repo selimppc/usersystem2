@@ -134,7 +134,8 @@ class AuthController extends Controller
             return view('admin::layouts.dashboard');
         }
         else{
-            return view('admin::signin._form');
+            $data['pageTitle']= 'Login';
+            return view('admin::signin._form',$data);
         }
     }
 

@@ -1,9 +1,9 @@
-@extends('admin::layouts.signup')
+@extends('admin::layouts.login')
 
 @section('content')
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-offset-3 col-md-6">
             <div class="text-center m-b-md">
                 <h3><b>Registration</b></h3>
 
@@ -11,7 +11,7 @@
             <div class="hpanel">
                 <div class="panel-body">
 
-                    {!! Form::open(['route' => 'signup','id'=>'form_2']) !!}
+                    {!! Form::open(['route' => 'signup']) !!}
                         <div class="row">
                             <div class="form-group col-lg-12">
                                 <label>Username</label>
@@ -41,7 +41,8 @@
 
                         </div>
                         <div class="pull-right">
-                            <button class="btn btn-success" id="resg-btn-disabled">Register</button>
+                            <a class="btn btn-success" href="{{ route('get-user-login') }}">Back to login page</a>
+                            <button class="btn btn-info" id="resg-btn-disabled">Register</button>
                         </div>
 
                     {!! Form::close() !!}
