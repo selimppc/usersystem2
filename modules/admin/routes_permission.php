@@ -55,7 +55,7 @@ Route::any('index-permission-role', [
     'uses' => 'PermissionRoleController@index'
 ]);
 Route::post('add-permission-role', [
-//   'middleware' => 'acl_access:add-permission-role',
+   'middleware' => 'acl_access:add-permission-role',
     'as' => 'add-permission-role',
     'uses' => 'PermissionRoleController@create'
 ]);

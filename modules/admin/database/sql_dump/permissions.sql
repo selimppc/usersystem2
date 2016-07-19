@@ -73,5 +73,9 @@ INSERT INTO `permissions` (`id`, `title`, `route_url`, `description`,`weight`, `
 (68, 'admin', 'admin', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
 (69, 'content-page', 'content-page', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
 (70, 'validation-page', 'validation-page', null,2, 1, 0, '2016-03-03 09:24:18', '2016-03-03 09:24:18'),
-(71, 'store-permission-role', 'store-permission-role', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(71, 'store-permission-role', 'store-permission-role', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(72, 'add-new-user', 'add-new-user', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(73, 'add-role', 'add-role', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(74, 'add-profile', 'add-profile', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(75, 'add-permission-role', 'add-permission-role', null,2, 1, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 

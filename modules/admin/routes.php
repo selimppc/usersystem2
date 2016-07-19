@@ -136,7 +136,7 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
     ]);
 
     Route::get('add-new-user', [
-//            'middleware' => 'acl_access:add-new-user',
+            'middleware' => 'acl_access:add-new-user',
             'as'         => 'add-new-user',
             'uses'       => 'UserController@add_new_user',
     ]);
@@ -226,7 +226,7 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
     ]);
 
     Route::any('add-role', [
-//            'middleware' => 'acl_access:add-role',
+            'middleware' => 'acl_access:add-role',
             'as'         => 'add-role',
             'uses'       => 'RoleController@create',
     ]);
@@ -311,7 +311,7 @@ Route::group(array('middleware' => 'auth', 'modules' => 'Admin', 'namespace' => 
             'uses'       => 'UserController@create_user_info',
     ]);
     Route::any('add-profile', [
-//            'middleware' => 'acl_access:add-profile',
+            'middleware' => 'acl_access:add-profile',
             'as'         => 'add-profile',
             'uses'       => 'UserController@create_profile',
     ]);
