@@ -21,17 +21,17 @@
                 {!! Form::open(['method' =>'GET','route'=>'search-menu-panel']) !!}
                 <div id="index-search">
                     <div class="col-sm-3">
-                        {!! Form::select('menu_type', array(''=>'select menu type','ROOT'=>'ROOT','MODU'=>'MODU','MENU'=>'MENU','SUBM'=>'SUBM'),@Input::get('menu_type')? Input::get('menu_type') : null,['class' => 'form-control', 'title'=>'select your require "menu type", example :: ROOT']) !!}
+                        {!! Form::select('menu_type', array(''=>'select menu type','ROOT'=>'ROOT','MODU'=>'MODU','MENU'=>'MENU','SUBM'=>'SUBM'),@Input::get('menu_type')? Input::get('menu_type') : null,['class' => 'form-control input-sm', 'title'=>'select your require "menu type", example :: ROOT']) !!}
                     </div>
                     <div class="col-sm-3">
-                        {!! Form::text('menu_name',@Input::get('menu_name')? Input::get('menu_name') : null,['class' => 'form-control','placeholder'=>'type menu name', 'title'=>'type your require menu "name", example :: Main Menu, then click "search" button']) !!}
+                        {!! Form::text('menu_name',@Input::get('menu_name')? Input::get('menu_name') : null,['class' => 'form-control input-sm','placeholder'=>'type menu name', 'title'=>'type your require menu "name", example :: Main Menu, then click "search" button']) !!}
                     </div>
                     <div class="col-sm-2">
-                        {!! Form::text('route',@Input::get('route')? Input::get('route') : null,['class' => 'form-control','placeholder'=>'type route name', 'title'=>'type your require route "name", example :: menu-panel, then click "search" button']) !!}
+                        {!! Form::text('route',@Input::get('route')? Input::get('route') : null,['class' => 'form-control input-sm','placeholder'=>'type route name', 'title'=>'type your require route "name", example :: menu-panel, then click "search" button']) !!}
                     </div>
 
                     <div class="col-sm-2 filter-btn">
-                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-xs pull-left','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type code or title or both in specific field then click search button for required information')) !!}
+                        {!! Form::submit('Search', array('class'=>'btn btn-primary btn-sm pull-left','id'=>'button', 'data-placement'=>'right', 'data-content'=>'type code or title or both in specific field then click search button for required information')) !!}
                     </div>
                 </div>
                 {!! Form::close() !!}
