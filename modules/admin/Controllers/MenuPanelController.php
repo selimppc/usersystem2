@@ -42,7 +42,10 @@ class MenuPanelController extends Controller
      */
     public function create()
     {
-        //
+        $pageTitle = "Add new menu";
+        $model = MenuPanel::orderBy('id', 'DESC')->where('status','!=','cancel')->paginate(30);
+
+        return view('admin::menu_panel.create', ['model' => $model, 'pageTitle'=> $pageTitle]);
     }
 
     /**
